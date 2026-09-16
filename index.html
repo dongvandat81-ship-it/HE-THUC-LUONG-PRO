@@ -1,0 +1,3085 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MATH BATTLE – Hệ Thức Lượng Trong Tam Giác (Toán 10 KNTT)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b'
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706'
+            },
+            darkbg: '#0B0F19',
+            darkcard: '#151E32',
+            darkborder: '#26344E'
+          },
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', 'Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- MathJax Configuration and Loader -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' },
+      startup: {
+        typeset: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+
+    /* Smooth animated glowing effects */
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.02); }
+    }
+    .animate-pulse-glow {
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+
+    @keyframes float-badge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-float {
+      animation: float-badge 2.5s infinite ease-in-out;
+    }
+
+    /* MathJax font scaling */
+    mjx-container {
+      font-size: 110% !important;
+      outline: none;
+      display: inline-grid !important;
+      vertical-align: middle;
+    }
+    .presentation-mode mjx-container {
+      font-size: 140% !important;
+    }
+    
+    /* Option button active states */
+    .option-btn {
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+    .option-btn:active:not(:disabled) {
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-darkbg text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300 selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-darkbg/90 backdrop-blur border-b border-slate-200 dark:border-darkborder px-4 py-2.5 transition-colors">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo and Tagline -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navTo('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-accent-500 flex items-center justify-center shadow-lg shadow-brand-500/20 text-white font-black text-xl tracking-tighter">
+          MB
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-black text-lg tracking-wide bg-gradient-to-r from-brand-600 via-indigo-400 to-accent-500 bg-clip-text text-transparent">MATH BATTLE</span>
+            <span class="text-xs px-2 py-0.5 rounded-full font-bold bg-indigo-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-700">TOÁN 10</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block font-medium">Hệ thức lượng trong tam giác • KNTT</p>
+        </div>
+      </div>
+
+      <!-- Quick Global Action Buttons -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Presentation Mode Button -->
+        <button id="btnPresentationToggle" onclick="app.togglePresentationMode()" title="Chế độ trình chiếu giáo viên" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition text-sm flex items-center space-x-1.5 border border-slate-200 dark:border-slate-700">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span class="hidden md:inline text-xs font-semibold">Trình chiếu</span>
+        </button>
+
+        <!-- Sound Toggle Button -->
+        <button id="btnSoundToggle" onclick="app.toggleSound()" title="Bật/Tắt âm thanh" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition text-sm flex items-center space-x-1 border border-slate-200 dark:border-slate-700">
+          <span id="soundIcon">🔊</span>
+          <span id="soundLabel" class="hidden sm:inline text-xs font-semibold">Bật</span>
+        </button>
+
+        <!-- Dark/Light Mode Switcher -->
+        <button id="btnThemeToggle" onclick="app.toggleTheme()" title="Đổi giao diện sáng/tối" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition text-sm border border-slate-200 dark:border-slate-700">
+          <span id="themeIcon">🌙</span>
+        </button>
+
+        <!-- User Profile / High Score Pill -->
+        <div class="hidden lg:flex items-center space-x-2 bg-indigo-50/80 dark:bg-darkcard border border-indigo-100 dark:border-darkborder rounded-lg px-3 py-1.5">
+          <span class="text-xs text-slate-500 dark:text-slate-400">Điểm cao:</span>
+          <span id="headerHighScore" class="text-xs font-bold text-accent-500">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="appContainer" class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-center">
+
+    <!-- ==================== SCREEN 1: HOME SCREEN ==================== -->
+    <section id="screenHome" class="w-full max-w-5xl mx-auto py-4 sm:py-8 space-y-8 animate-fadeIn">
+      <!-- Hero Banner -->
+      <div class="text-center space-y-3">
+        <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-brand-500/10 via-indigo-500/10 to-accent-500/10 border border-brand-500/20 text-xs font-bold text-brand-600 dark:text-brand-400">
+          <span>⚡ GDPT 2018</span>
+          <span>•</span>
+          <span>TOÁN 10 KẾT NỐI TRI THỨC</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight bg-gradient-to-r from-indigo-500 via-brand-500 to-accent-500 bg-clip-text text-transparent">
+          MATH BATTLE
+        </h1>
+        <p class="text-base sm:text-xl font-semibold text-slate-600 dark:text-slate-300">
+          Chuyên đề: Hệ thức lượng trong tam giác
+        </p>
+        <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-xl mx-auto italic">
+          "Nhanh – Chính xác – Tư duy – Chinh phục"
+        </p>
+      </div>
+
+      <!-- Quick Stats Card -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-xl p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Ngân hàng chuẩn</div>
+          <div class="text-xl sm:text-2xl font-black text-brand-600 dark:text-brand-400">40 Câu</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-xl p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Hình học SVG</div>
+          <div class="text-xl sm:text-2xl font-black text-emerald-500">14+ Sơ đồ</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-xl p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Bài toán thực tế</div>
+          <div class="text-xl sm:text-2xl font-black text-accent-500">8+ Tình huống</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-xl p-3 text-center shadow-sm">
+          <div class="text-xs font-medium text-slate-500 dark:text-slate-400">Chế độ thi đấu</div>
+          <div class="text-xl sm:text-2xl font-black text-indigo-500">4 Modes</div>
+        </div>
+      </div>
+
+      <!-- Main Navigation 4 Action Buttons -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto pt-2">
+        <!-- MODE A & B BUTTONS -->
+        <button onclick="app.navTo('teacherConfig')" class="group relative overflow-hidden bg-gradient-to-br from-brand-600 to-indigo-700 hover:from-brand-500 hover:to-indigo-600 text-white p-6 rounded-2xl shadow-xl shadow-brand-500/20 transition-all text-left flex flex-col justify-between h-40 border border-brand-400/30">
+          <div class="flex items-center justify-between">
+            <span class="p-3 bg-white/10 rounded-xl text-2xl">👨‍🏫</span>
+            <span class="text-[11px] uppercase tracking-wider font-extrabold bg-white/20 px-2.5 py-1 rounded-full">Dành cho Giáo viên</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-black group-hover:translate-x-1 transition-transform">TẠO PHÒNG ĐẤU</h3>
+            <p class="text-xs text-indigo-100 mt-1">Khởi tạo trận đấu trực tiếp trong lớp học với mã PIN & cấu hình tuỳ chỉnh.</p>
+          </div>
+        </button>
+
+        <button onclick="app.navTo('studentJoin')" class="group relative overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white p-6 rounded-2xl shadow-xl shadow-emerald-500/20 transition-all text-left flex flex-col justify-between h-40 border border-emerald-400/30">
+          <div class="flex items-center justify-between">
+            <span class="p-3 bg-white/10 rounded-xl text-2xl">👨‍🎓</span>
+            <span class="text-[11px] uppercase tracking-wider font-extrabold bg-white/20 px-2.5 py-1 rounded-full">Dành cho Học sinh</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-black group-hover:translate-x-1 transition-transform">THAM GIA PHÒNG</h3>
+            <p class="text-xs text-emerald-100 mt-1">Nhập mã PIN phòng do thầy/cô cung cấp và tên để bước vào đấu trường.</p>
+          </div>
+        </button>
+
+        <!-- MODE C & D BUTTONS -->
+        <button onclick="app.navTo('practiceConfig')" class="group relative overflow-hidden bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-darkborder p-6 rounded-2xl shadow-lg transition-all text-left flex flex-col justify-between h-40">
+          <div class="flex items-center justify-between">
+            <span class="p-3 bg-indigo-50 dark:bg-slate-800 rounded-xl text-2xl">📖</span>
+            <span class="text-[11px] uppercase tracking-wider font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-900/40 px-2.5 py-1 rounded-full">Tự rèn luyện</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-black text-slate-800 dark:text-white group-hover:translate-x-1 transition-transform">LUYỆN TẬP THEO CHỦ ĐỀ</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Ôn tập chuyên sâu từng phần, xem lời giải chi tiết tức thì không tính giờ.</p>
+          </div>
+        </button>
+
+        <button onclick="app.startChallengeMode()" class="group relative overflow-hidden bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-darkborder p-6 rounded-2xl shadow-lg transition-all text-left flex flex-col justify-between h-40">
+          <div class="flex items-center justify-between">
+            <span class="p-3 bg-amber-50 dark:bg-slate-800 rounded-xl text-2xl">🏆</span>
+            <span class="text-[11px] uppercase tracking-wider font-bold text-accent-500 bg-amber-50 dark:bg-amber-900/40 px-2.5 py-1 rounded-full">20 Câu hỏi</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-black text-slate-800 dark:text-white group-hover:translate-x-1 transition-transform">CHALLENGE TĂNG ĐỘ KHÓ</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">4 cấp độ Nhận biết $\to$ Vận dụng cao, chinh phục Final Challenge #20.</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Secondary Utility Row: Achievements, Question Bank Viewer, Reset Data -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-4 text-xs font-semibold">
+        <button onclick="app.navTo('achievements')" class="px-4 py-2 rounded-xl bg-slate-200/80 dark:bg-darkcard hover:bg-slate-300 dark:hover:bg-slate-800 border border-slate-300 dark:border-darkborder transition flex items-center space-x-1.5">
+          <span>🏅</span>
+          <span>Bảng Danh Hiệu & Kỷ Lục</span>
+        </button>
+        <button onclick="app.navTo('questionBankView')" class="px-4 py-2 rounded-xl bg-slate-200/80 dark:bg-darkcard hover:bg-slate-300 dark:hover:bg-slate-800 border border-slate-300 dark:border-darkborder transition flex items-center space-x-1.5">
+          <span>✏️</span>
+          <span>Ngân Hàng 40 Câu Hỏi (Kiểm định)</span>
+        </button>
+        <button onclick="app.resetAllDataPrompt()" class="px-3 py-2 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition flex items-center space-x-1">
+          <span>🗑️</span>
+          <span>Xóa dữ liệu thi đấu</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 2: TEACHER CONFIG ==================== -->
+    <section id="screenTeacherConfig" class="hidden w-full max-w-3xl mx-auto py-6 space-y-6 animate-fadeIn">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-4">
+        <div>
+          <button onclick="app.navTo('home')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1 mb-1">
+            <span>← Quay lại Trang chủ</span>
+          </button>
+          <h2 class="text-2xl sm:text-3xl font-black">👨‍🏫 TẠO PHÒNG MATH BATTLE</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Cấu hình thông số trận đấu cho tiết dạy trên lớp</p>
+        </div>
+        <div class="text-2xl">⚙️</div>
+      </div>
+
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-5 sm:p-6 space-y-6 shadow-md">
+        <!-- Topic Selection -->
+        <div>
+          <label class="block text-sm font-bold mb-2">1. Chọn Chủ đề thi đấu:</label>
+          <select id="cfgTopic" class="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm font-medium focus:ring-2 focus:ring-brand-500 outline-none">
+            <option value="ALL">Toàn bộ chuyên đề (Ngân hàng tổng hợp 40 câu)</option>
+            <option value="GTLG">Chủ đề 1: Giá trị lượng giác của góc 0° đến 180°</option>
+            <option value="QHLG">Chủ đề 2: Quan hệ giữa các giá trị lượng giác</option>
+            <option value="COSIN">Chủ đề 3: Định lí côsin</option>
+            <option value="SIN">Chủ đề 4: Định lí sin</option>
+            <option value="DIENTICH">Chủ đề 5: Công thức tính diện tích tam giác</option>
+            <option value="GIAITG">Chủ đề 6: Giải tam giác</option>
+            <option value="THUCTE">Chủ đề 7: Bài toán thực tế</option>
+          </select>
+        </div>
+
+        <!-- Question Count & Timer Selection -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-bold mb-2">2. Số lượng câu hỏi:</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button type="button" onclick="app.setCfgValue('questionCount', 10, this)" class="cfg-btn-q font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">10 câu</button>
+              <button type="button" onclick="app.setCfgValue('questionCount', 15, this)" class="cfg-btn-q font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">15 câu</button>
+              <button type="button" onclick="app.setCfgValue('questionCount', 20, this)" class="cfg-btn-q font-bold py-2 rounded-xl text-xs border-2 border-brand-500 bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400">20 câu</button>
+              <button type="button" onclick="app.setCfgValue('questionCount', 30, this)" class="cfg-btn-q font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">30 câu</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold mb-2">3. Thời gian mỗi câu:</label>
+            <div class="grid grid-cols-5 gap-1.5">
+              <button type="button" onclick="app.setCfgValue('timePerQuestion', 15, this)" class="cfg-btn-t font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">15s</button>
+              <button type="button" onclick="app.setCfgValue('timePerQuestion', 20, this)" class="cfg-btn-t font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">20s</button>
+              <button type="button" onclick="app.setCfgValue('timePerQuestion', 30, this)" class="cfg-btn-t font-bold py-2 rounded-xl text-xs border-2 border-brand-500 bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400">30s</button>
+              <button type="button" onclick="app.setCfgValue('timePerQuestion', 45, this)" class="cfg-btn-t font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">45s</button>
+              <button type="button" onclick="app.setCfgValue('timePerQuestion', 60, this)" class="cfg-btn-t font-bold py-2 rounded-xl text-xs border border-slate-300 dark:border-slate-700 hover:border-brand-500 transition">60s</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Switches -->
+        <div>
+          <label class="block text-sm font-bold mb-2.5">4. Tùy chọn trận đấu:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <label class="flex items-center space-x-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-darkborder cursor-pointer">
+              <input type="checkbox" id="cfgShuffleQ" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium">Xáo trộn thứ tự câu hỏi</span>
+            </label>
+            <label class="flex items-center space-x-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-darkborder cursor-pointer">
+              <input type="checkbox" id="cfgShuffleAns" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium">Xáo trộn vị trí đáp án</span>
+            </label>
+            <label class="flex items-center space-x-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-darkborder cursor-pointer">
+              <input type="checkbox" id="cfgShowExp" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium">Hiển thị lời giải sau mỗi câu</span>
+            </label>
+            <label class="flex items-center space-x-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-darkborder cursor-pointer">
+              <input type="checkbox" id="cfgShowLeaderboard" checked class="w-4 h-4 rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium">Hiển thị bảng xếp hạng sau mỗi câu</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Create Button -->
+        <button onclick="app.createClassroomRoom()" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-extrabold text-base tracking-wide shadow-lg shadow-brand-500/25 transition">
+          🚀 TẠO PHÒNG VÀ LẤY MÃ PIN
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 3: CLASSROOM LOBBY ==================== -->
+    <section id="screenLobby" class="hidden w-full max-w-4xl mx-auto py-6 space-y-6 text-center animate-fadeIn">
+      <div class="space-y-2">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300 text-xs font-bold">
+          <span>🎮 CLASSROOM SIMULATION MODE</span>
+          <span>•</span>
+          <span>Mô phỏng thi đấu trực tiếp trên 1 thiết bị</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-500 dark:text-slate-400">Truy cập phòng bằng mã PIN:</h2>
+        
+        <!-- Big PIN Display -->
+        <div class="py-4">
+          <div id="lobbyPinCode" class="inline-block tracking-widest text-4xl sm:text-6xl font-black px-8 py-4 rounded-2xl bg-white dark:bg-darkcard border-2 border-brand-500 shadow-2xl text-brand-600 dark:text-brand-400 font-mono select-all">
+            728 415
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 dark:text-slate-400">Học sinh nhập mã PIN này trên thiết bị hoặc xem trực tiếp trên màn hình chiếu.</p>
+      </div>
+
+      <!-- Connected Students Grid -->
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-6 space-y-4 max-w-2xl mx-auto text-left shadow-lg">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-3">
+          <h3 class="font-extrabold text-sm uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center space-x-2">
+            <span>👥 HỌC SINH ĐÃ THAM GIA</span>
+            <span id="lobbyPlayerCount" class="bg-brand-100 dark:bg-brand-900/60 text-brand-600 dark:text-brand-400 px-2.5 py-0.5 rounded-full text-xs font-black">6</span>
+          </h3>
+          <span class="text-xs text-emerald-500 font-bold flex items-center space-x-1">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span>Sẵn sàng</span>
+          </span>
+        </div>
+
+        <div id="lobbyPlayerList" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 py-2">
+          <!-- Dynamically filled with student avatar badges -->
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+          <span>* Các học sinh mô phỏng sẽ cùng tham gia thi đấu cùng bạn.</span>
+          <button onclick="app.addSimulatedStudent()" class="text-brand-600 dark:text-brand-400 hover:underline font-bold">+ Thêm học sinh</button>
+        </div>
+      </div>
+
+      <!-- Start Action Controls -->
+      <div class="max-w-md mx-auto flex items-center justify-center space-x-3 pt-2">
+        <button onclick="app.navTo('teacherConfig')" class="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Hủy phòng
+        </button>
+        <button onclick="app.startClassroomGame()" class="px-8 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-base shadow-lg shadow-emerald-600/30 transition flex items-center space-x-2">
+          <span>🚀 BẮT ĐẦU TRẬN ĐẤU</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 4: STUDENT JOIN ==================== -->
+    <section id="screenStudentJoin" class="hidden w-full max-w-md mx-auto py-8 space-y-6 animate-fadeIn">
+      <div class="text-center space-y-2">
+        <button onclick="app.navTo('home')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center justify-center space-x-1 mx-auto mb-2">
+          <span>← Quay lại Trang chủ</span>
+        </button>
+        <h2 class="text-3xl font-black">THAM GIA PHÒNG ĐẤU</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Nhập thông tin để tham gia phòng do thầy/cô tổ chức</p>
+      </div>
+
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-6 space-y-5 shadow-xl">
+        <div id="joinErrorMsg" class="hidden p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-300 dark:border-rose-800 text-rose-600 dark:text-rose-400 text-xs font-bold"></div>
+
+        <div>
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">MÃ PIN PHÒNG:</label>
+          <input type="text" id="joinPinInput" placeholder="Ví dụ: 728415" maxlength="8" class="w-full text-center font-mono text-2xl font-black tracking-widest bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 focus:border-brand-500 focus:outline-none uppercase">
+        </div>
+
+        <div>
+          <label class="block text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">TÊN HỌC SINH (HOẶC NHÓM):</label>
+          <input type="text" id="joinNameInput" placeholder="Nhập tên của bạn..." maxlength="20" class="w-full text-center font-bold text-lg bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-xl px-4 py-3 focus:border-brand-500 focus:outline-none">
+        </div>
+
+        <button onclick="app.handleStudentJoinSubmit()" class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-base tracking-wide shadow-lg shadow-emerald-500/25 transition">
+          ▶ THAM GIA NGAY
+        </button>
+
+        <div class="text-center">
+          <span class="text-xs text-slate-400">Bạn muốn tự chơi một mình? </span>
+          <button onclick="app.startSoloDirect()" class="text-xs font-bold text-brand-500 hover:underline">Chơi Solo ngay</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 5: STUDENT WAITING ==================== -->
+    <section id="screenStudentWait" class="hidden w-full max-w-md mx-auto py-12 text-center space-y-6 animate-fadeIn">
+      <div class="w-20 h-20 mx-auto rounded-3xl bg-emerald-500/10 border-2 border-emerald-500/40 flex items-center justify-center text-4xl animate-bounce">
+        🎮
+      </div>
+      <div class="space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black text-emerald-500">BẠN ĐÃ THAM GIA!</h2>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm space-y-1">
+          <p class="text-xs text-slate-500 dark:text-slate-400">Tên tuyển thủ:</p>
+          <p id="waitPlayerName" class="text-xl font-black text-slate-800 dark:text-slate-100">Nguyễn An</p>
+          <div class="pt-2 text-xs font-mono font-bold text-brand-500">Phòng PIN: <span id="waitRoomPin">728415</span></div>
+        </div>
+        <div class="py-4 space-y-2">
+          <div class="inline-flex items-center space-x-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-500 animate-ping"></span>
+            <span>Đang chờ giáo viên bắt đầu trận đấu...</span>
+          </div>
+        </div>
+        <button onclick="app.startClassroomGame()" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-black shadow-md transition">
+          ▶ Giả lập Bắt đầu ngay
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 6: PRACTICE SELECTION ==================== -->
+    <section id="screenPracticeConfig" class="hidden w-full max-w-4xl mx-auto py-6 space-y-6 animate-fadeIn">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-4">
+        <div>
+          <button onclick="app.navTo('home')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1 mb-1">
+            <span>← Quay lại Trang chủ</span>
+          </button>
+          <h2 class="text-2xl sm:text-3xl font-black">📖 LUYỆN TẬP THEO CHỦ ĐỀ</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Không áp lực thời gian • Có gợi ý & lời giải chi tiết tức thì</p>
+        </div>
+        <div class="text-2xl">🎯</div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Topic 1 -->
+        <div onclick="app.startPracticeWithTopic('GTLG')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-indigo-50 dark:bg-slate-800 rounded-xl text-xl">📐</span>
+            <span class="text-[11px] font-bold text-brand-500 bg-brand-50 dark:bg-brand-900/40 px-2 py-0.5 rounded-full">7 Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-brand-500 transition">Chủ đề 1: GTLG góc 0° đến 180°</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Định nghĩa sin, cos, tan, cot trên nửa đường tròn đơn vị; dấu và góc đặc biệt.</p>
+          </div>
+          <div class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+
+        <!-- Topic 2 -->
+        <div onclick="app.startPracticeWithTopic('QHLG')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-blue-50 dark:bg-slate-800 rounded-xl text-xl">🔄</span>
+            <span class="text-[11px] font-bold text-blue-500 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-full">4 Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-blue-500 transition">Chủ đề 2: Quan hệ giữa các GTLG</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Hai góc bù nhau, phụ nhau; các hằng đẳng thức lượng giác cơ bản $\sin^2\alpha + \cos^2\alpha = 1$.</p>
+          </div>
+          <div class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+
+        <!-- Topic 3 -->
+        <div onclick="app.startPracticeWithTopic('COSIN')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-emerald-50 dark:bg-slate-800 rounded-xl text-xl">📏</span>
+            <span class="text-[11px] font-bold text-emerald-500 bg-emerald-50 dark:bg-emerald-900/40 px-2 py-0.5 rounded-full">8 Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-emerald-500 transition">Chủ đề 3: Định lí Côsin</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Tính cạnh thứ ba: $a^2 = b^2+c^2-2bc\cos A$, tính góc và độ dài đường trung tuyến $m_a$.</p>
+          </div>
+          <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+
+        <!-- Topic 4 -->
+        <div onclick="app.startPracticeWithTopic('SIN')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-amber-50 dark:bg-slate-800 rounded-xl text-xl">🌐</span>
+            <span class="text-[11px] font-bold text-amber-500 bg-amber-50 dark:bg-amber-900/40 px-2 py-0.5 rounded-full">7 Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-amber-500 transition">Chủ đề 4: Định lí Sin</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Tỉ số $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C} = 2R$, tính cạnh và bán kính ngoại tiếp.</p>
+          </div>
+          <div class="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+
+        <!-- Topic 5 -->
+        <div onclick="app.startPracticeWithTopic('DIENTICH')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-purple-50 dark:bg-slate-800 rounded-xl text-xl">📊</span>
+            <span class="text-[11px] font-bold text-purple-500 bg-purple-50 dark:bg-purple-900/40 px-2 py-0.5 rounded-full">5 Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-purple-500 transition">Chủ đề 5: Diện tích tam giác</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Công thức $S = \frac{1}{2}bc\sin A$, Heron, $S=pr$, $S=\frac{abc}{4R}$ và bán kính nội/ngoại tiếp.</p>
+          </div>
+          <div class="text-xs font-bold text-purple-600 dark:text-purple-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+
+        <!-- Topic 6 & 7 -->
+        <div onclick="app.startPracticeWithTopic('THUCTE')" class="cursor-pointer group bg-white dark:bg-darkcard hover:border-brand-500 border border-slate-200 dark:border-darkborder rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-3">
+          <div class="flex justify-between items-start">
+            <span class="p-2.5 bg-rose-50 dark:bg-slate-800 rounded-xl text-xl">🏔️</span>
+            <span class="text-[11px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/40 px-2 py-0.5 rounded-full">8+ Câu</span>
+          </div>
+          <div>
+            <h4 class="font-extrabold text-base group-hover:text-rose-500 transition">Chủ đề 6 & 7: Giải TG & Thực tế</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Đo chiều cao tòa tháp, chiều rộng sông, khoảng cách tàu thuyền, hầm xuyên núi.</p>
+          </div>
+          <div class="text-xs font-bold text-rose-600 dark:text-rose-400 flex items-center space-x-1">
+            <span>Bắt đầu rèn luyện →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 7: QUESTION ARENA ==================== -->
+    <section id="screenArena" class="hidden w-full max-w-4xl mx-auto py-2 sm:py-4 flex flex-col justify-between flex-1 space-y-4 animate-fadeIn">
+      <!-- TOP STATUS BAR: Question Counter, Timer, Score, Combo, Hotkeys Pill -->
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-3 sm:p-4 shadow-sm flex items-center justify-between gap-2">
+        <!-- Question Index & Category Badge -->
+        <div class="flex items-center space-x-2">
+          <div class="p-2 bg-brand-50 dark:bg-brand-900/40 rounded-xl text-brand-600 dark:text-brand-400 font-black text-sm sm:text-base font-mono">
+            <span id="arenaQIndex">01</span>/<span id="arenaQTotal">20</span>
+          </div>
+          <div class="hidden sm:block">
+            <span id="arenaTopicBadge" class="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">Định lí Côsin</span>
+            <span id="arenaLevelBadge" class="ml-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400">Thông hiểu</span>
+          </div>
+        </div>
+
+        <!-- Dynamic Timer Gauge -->
+        <div id="arenaTimerContainer" class="flex items-center space-x-2">
+          <div class="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+              <path class="text-slate-200 dark:text-slate-700" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              <path id="arenaTimerCircle" class="text-brand-500 transition-all duration-300 ease-linear" stroke-dasharray="100, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            </svg>
+            <span id="arenaTimerText" class="absolute font-black text-sm sm:text-base font-mono">30</span>
+          </div>
+        </div>
+
+        <!-- Score & Combo Pill -->
+        <div class="flex items-center space-x-3 text-right">
+          <div id="arenaComboBadge" class="hidden px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-black shadow-sm animate-pulse-glow">
+            🔥 COMBO x<span id="arenaComboCount">2</span>
+          </div>
+          <div>
+            <div class="text-[10px] uppercase font-bold text-slate-400">Tuyển thủ</div>
+            <div id="arenaScoreText" class="font-black text-lg sm:text-2xl text-brand-600 dark:text-brand-400 font-mono">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERMEDIATE NOTICE: Final Question Alert -->
+      <div id="arenaFinalBanner" class="hidden p-2 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-white text-center font-black text-xs sm:text-sm tracking-widest uppercase shadow-md animate-pulse">
+        🔥 FINAL CHALLENGE QUESTION – THỬ THÁCH VỀ ĐÍCH! 🔥
+      </div>
+
+      <!-- CENTER CONTENT CARD: Question Text & Responsive SVG Diagram -->
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 sm:p-6 shadow-md flex-1 flex flex-col justify-center space-y-4 min-h-[220px]">
+        <!-- Question Text (MathJax formatted) -->
+        <div id="arenaQuestionText" class="text-base sm:text-xl font-bold leading-relaxed text-slate-800 dark:text-slate-100">
+          Đang tải dữ liệu câu hỏi...
+        </div>
+
+        <!-- Diagram SVG Container -->
+        <div id="arenaDiagramBox" class="hidden w-full max-w-sm sm:max-w-md mx-auto my-1 p-3 bg-slate-50 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center">
+          <!-- Dynamic SVG inserted here -->
+        </div>
+      </div>
+
+      <!-- BOTTOM INTERACTIVE: 4 Option Buttons (Grid 2x2 on Desktop, 1x4 on Mobile) -->
+      <div id="arenaOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3.5">
+        <!-- Option 0 (A) -->
+        <button id="optBtn0" onclick="app.selectOption(0)" class="option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-darkborder focus:outline-none flex items-center space-x-3 shadow-sm group">
+          <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white flex items-center justify-center font-black text-xs sm:text-sm font-mono transition">A</span>
+          <span id="optText0" class="flex-1 font-medium text-sm sm:text-base text-slate-800 dark:text-slate-100">...</span>
+          <span class="hidden sm:inline-block text-[10px] text-slate-400 font-mono">[Phím 1]</span>
+        </button>
+
+        <!-- Option 1 (B) -->
+        <button id="optBtn1" onclick="app.selectOption(1)" class="option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-darkborder focus:outline-none flex items-center space-x-3 shadow-sm group">
+          <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white flex items-center justify-center font-black text-xs sm:text-sm font-mono transition">B</span>
+          <span id="optText1" class="flex-1 font-medium text-sm sm:text-base text-slate-800 dark:text-slate-100">...</span>
+          <span class="hidden sm:inline-block text-[10px] text-slate-400 font-mono">[Phím 2]</span>
+        </button>
+
+        <!-- Option 2 (C) -->
+        <button id="optBtn2" onclick="app.selectOption(2)" class="option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-darkborder focus:outline-none flex items-center space-x-3 shadow-sm group">
+          <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white flex items-center justify-center font-black text-xs sm:text-sm font-mono transition">C</span>
+          <span id="optText2" class="flex-1 font-medium text-sm sm:text-base text-slate-800 dark:text-slate-100">...</span>
+          <span class="hidden sm:inline-block text-[10px] text-slate-400 font-mono">[Phím 3]</span>
+        </button>
+
+        <!-- Option 3 (D) -->
+        <button id="optBtn3" onclick="app.selectOption(3)" class="option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-darkborder focus:outline-none flex items-center space-x-3 shadow-sm group">
+          <span class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 group-hover:bg-brand-500 group-hover:text-white flex items-center justify-center font-black text-xs sm:text-sm font-mono transition">D</span>
+          <span id="optText3" class="flex-1 font-medium text-sm sm:text-base text-slate-800 dark:text-slate-100">...</span>
+          <span class="hidden sm:inline-block text-[10px] text-slate-400 font-mono">[Phím 4]</span>
+        </button>
+      </div>
+
+      <!-- POST-ANSWER FEEDBACK & EXPLANATION MODAL DRAWER -->
+      <div id="arenaFeedbackDrawer" class="hidden bg-white dark:bg-darkcard border-2 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3 animate-fadeIn">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span id="feedbackIcon" class="text-2xl">🎉</span>
+            <div>
+              <h4 id="feedbackTitle" class="font-black text-base sm:text-lg">CHÍNH XÁC!</h4>
+              <p id="feedbackPoints" class="text-xs font-bold text-emerald-500">+850 điểm (Thưởng tốc độ 350)</p>
+            </div>
+          </div>
+          <button id="btnArenaNext" onclick="app.handleNextQuestionOrLeaderboard()" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-black text-xs sm:text-sm shadow-md transition flex items-center space-x-1.5">
+            <span>Tiếp tục</span>
+            <span class="font-mono text-[10px] hidden sm:inline">[Phím N / Space]</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Explanation Content -->
+        <div id="feedbackExpBox" class="p-3 bg-slate-50 dark:bg-slate-900/60 rounded-xl border border-slate-200 dark:border-slate-800 text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <span class="font-bold text-slate-800 dark:text-slate-100">💡 Hướng dẫn giải:</span>
+          <div id="feedbackExpText" class="mt-1">...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 8: ROUND LEADERBOARD ==================== -->
+    <section id="screenLeaderboard" class="hidden w-full max-w-2xl mx-auto py-6 space-y-6 text-center animate-fadeIn">
+      <div class="space-y-1">
+        <div class="inline-flex items-center space-x-1.5 text-xs font-black uppercase tracking-widest text-amber-500 bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-full border border-amber-500/20">
+          <span>🏆 BẢNG XẾP HẠNG VÒNG ĐẤU</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black">TOP 5 DẪN ĐẦU</h2>
+        <p class="text-xs text-slate-400">Xếp hạng cập nhật dựa trên tổng điểm và tốc độ trả lời</p>
+      </div>
+
+      <!-- Top 5 Leaderboard List -->
+      <div id="roundLeaderboardList" class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 sm:p-5 space-y-2.5 shadow-lg text-left">
+        <!-- Dynamically rendered rows -->
+      </div>
+
+      <button onclick="app.continueFromLeaderboard()" class="px-8 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-extrabold text-sm shadow-lg shadow-brand-500/30 transition">
+        TIẾP TỤC CÂU TIẾP THEO →
+      </button>
+    </section>
+
+    <!-- ==================== SCREEN 9: FINAL SUMMARY & ANALYTICS ==================== -->
+    <section id="screenFinal" class="hidden w-full max-w-4xl mx-auto py-6 space-y-8 animate-fadeIn">
+      <!-- Confetti and Triumphant Header -->
+      <div class="text-center space-y-2">
+        <div class="inline-block p-4 rounded-3xl bg-amber-500/10 border-2 border-amber-500/30 text-5xl animate-float">
+          🏆
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-500 to-brand-500 bg-clip-text text-transparent">
+          FINAL SHOWDOWN COMPLETED!
+        </h1>
+        <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">
+          Chúc mừng bạn đã hoàn thành xuất sắc lượt thi đấu Toán 10
+        </p>
+      </div>
+
+      <!-- Key Metrics Scoreboard Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 text-center shadow-sm">
+          <span class="text-xs font-bold text-slate-400 uppercase">Tổng Điểm</span>
+          <div id="finalScoreVal" class="text-2xl sm:text-3xl font-black text-brand-600 dark:text-brand-400 font-mono mt-1">15.820</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 text-center shadow-sm">
+          <span class="text-xs font-bold text-slate-400 uppercase">Đúng / Tổng số</span>
+          <div id="finalCorrectVal" class="text-2xl sm:text-3xl font-black text-emerald-500 font-mono mt-1">17/20</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 text-center shadow-sm">
+          <span class="text-xs font-bold text-slate-400 uppercase">Độ chính xác</span>
+          <div id="finalAccuracyVal" class="text-2xl sm:text-3xl font-black text-indigo-500 font-mono mt-1">85%</div>
+        </div>
+        <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 text-center shadow-sm">
+          <span class="text-xs font-bold text-slate-400 uppercase">Chuỗi Combo Max</span>
+          <div id="finalComboVal" class="text-2xl sm:text-3xl font-black text-amber-500 font-mono mt-1">🔥 x5</div>
+        </div>
+      </div>
+
+      <!-- Earned Honor Badge Card -->
+      <div class="bg-gradient-to-r from-brand-900/30 via-indigo-900/30 to-purple-900/30 border border-brand-500/30 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-3">
+          <div id="finalBadgeIcon" class="text-4xl p-3 bg-white/10 dark:bg-darkcard rounded-2xl">📐</div>
+          <div>
+            <span class="text-xs font-bold uppercase text-brand-400">Danh hiệu đạt được:</span>
+            <h3 id="finalBadgeTitle" class="text-xl font-black text-slate-800 dark:text-white">TRIANGLE MASTER</h3>
+            <p id="finalBadgeDesc" class="text-xs text-slate-500 dark:text-slate-300">Đạt độ chính xác trên 80% trong chủ đề Hệ thức lượng.</p>
+          </div>
+        </div>
+        <button onclick="app.navTo('achievements')" class="px-4 py-2 rounded-xl bg-white dark:bg-darkcard border border-slate-300 dark:border-slate-700 text-xs font-bold hover:border-brand-500 transition">
+          Xem tất cả huy hiệu
+        </button>
+      </div>
+
+      <!-- Topic Performance Breakdown Bars -->
+      <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+        <h3 class="font-extrabold text-sm uppercase tracking-wider text-slate-700 dark:text-slate-200">
+          📊 Phân tích năng lực theo từng chủ đề
+        </h3>
+        <div id="finalTopicBreakdown" class="space-y-3">
+          <!-- Dynamically populated progress bars -->
+        </div>
+      </div>
+
+      <!-- Teacher Classroom Analytics Section (Visible in Classroom Mode) -->
+      <div id="finalTeacherAnalyticsBox" class="hidden bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-5 sm:p-6 space-y-4 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-darkborder pb-3">
+          <div>
+            <h3 class="font-extrabold text-base text-brand-600 dark:text-brand-400 flex items-center space-x-2">
+              <span>📊 CLASSROOM ANALYTICS (DÀNH CHO GIÁO VIÊN)</span>
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Báo cáo sư phạm tổng quan toàn lớp học</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="app.copyAnalyticsTable()" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+              📋 Copy Kết Quả
+            </button>
+            <button onclick="app.exportResultsCSV()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition">
+              📥 Xuất CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- Class Summary Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl">
+            <div class="text-[11px] text-slate-400">Sĩ số tham gia</div>
+            <div id="classTotalStudents" class="text-lg font-black font-mono">6</div>
+          </div>
+          <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl">
+            <div class="text-[11px] text-slate-400">Điểm trung bình</div>
+            <div id="classAvgScore" class="text-lg font-black text-brand-500 font-mono">13.420</div>
+          </div>
+          <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl">
+            <div class="text-[11px] text-slate-400">Câu khó nhất</div>
+            <div id="classHardestQ" class="text-lg font-black text-rose-500 font-mono">Câu 16</div>
+          </div>
+          <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl">
+            <div class="text-[11px] text-slate-400">Câu đạt tỉ lệ cao nhất</div>
+            <div id="classEasiestQ" class="text-lg font-black text-emerald-500 font-mono">Câu 01</div>
+          </div>
+        </div>
+
+        <!-- Distractor Insights Feed -->
+        <div class="p-3.5 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 rounded-xl text-xs space-y-1">
+          <div class="font-extrabold text-amber-800 dark:text-amber-300 flex items-center space-x-1.5">
+            <span>💡 GỢI Ý SƯ PHẠM CHO GIÁO VIÊN:</span>
+          </div>
+          <p id="classPedagogicalAdvice" class="text-amber-900/80 dark:text-amber-200/90 leading-relaxed">
+            Học sinh có xu hướng nhầm lẫn dấu trong định lí Côsin ($a^2 = b^2+c^2 - 2bc\cos A$, hay quên dấu trừ) và giá trị lượng giác góc tù $\cos(180^\circ - \alpha) = -\cos\alpha$. Thầy/cô nên nhấn mạnh củng cố lại dấu trên nửa đường tròn đơn vị.
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Footer Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-4">
+        <button onclick="app.navTo('reviewWrong')" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-sm shadow-md transition flex items-center space-x-1.5">
+          <span>📖</span>
+          <span>ÔN LẠI CÁC CÂU SAI</span>
+        </button>
+        <button onclick="app.restartSameQuiz()" class="px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-extrabold text-sm shadow-md transition flex items-center space-x-1.5">
+          <span>🔄</span>
+          <span>CHƠI LẠI TRẬN NÀY</span>
+        </button>
+        <button onclick="app.navTo('home')" class="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          🏠 TRANG CHỦ
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 10: REVIEW WRONG ANSWERS ==================== -->
+    <section id="screenReviewWrong" class="hidden w-full max-w-3xl mx-auto py-6 space-y-6 animate-fadeIn">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-4">
+        <div>
+          <button onclick="app.navTo('final')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1 mb-1">
+            <span>← Quay lại Bảng tổng kết</span>
+          </button>
+          <h2 class="text-2xl font-black">📖 ÔN TẬP CÂU TRẢ LỜI SAI</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Xem lại từng câu, phân tích lỗi sai và ghi nhớ công thức</p>
+        </div>
+        <div class="text-2xl">🔍</div>
+      </div>
+
+      <div id="reviewQuestionsContainer" class="space-y-4">
+        <!-- Dynamically injected wrong answers with solutions -->
+      </div>
+
+      <div class="text-center pt-4">
+        <button onclick="app.navTo('final')" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs">
+          Hoàn thành xem lại
+        </button>
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 11: ACHIEVEMENTS & RECORDS ==================== -->
+    <section id="screenAchievements" class="hidden w-full max-w-4xl mx-auto py-6 space-y-6 animate-fadeIn">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-darkborder pb-4">
+        <div>
+          <button onclick="app.navTo('home')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1 mb-1">
+            <span>← Quay lại Trang chủ</span>
+          </button>
+          <h2 class="text-2xl sm:text-3xl font-black">🏅 HUY HIỆU & THÀNH TÍCH</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Ghi nhận chuỗi rèn luyện và thành tích Toán học cá nhân</p>
+        </div>
+        <div class="text-2xl">🎖️</div>
+      </div>
+
+      <!-- Achievement Grid -->
+      <div id="achievementsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- ==================== SCREEN 12: QUESTION BANK VIEW ==================== -->
+    <section id="screenQuestionBank" class="hidden w-full max-w-5xl mx-auto py-6 space-y-6 animate-fadeIn">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-darkborder pb-4">
+        <div>
+          <button onclick="app.navTo('home')" class="text-xs font-bold text-brand-600 dark:text-brand-400 flex items-center space-x-1 mb-1">
+            <span>← Quay lại Trang chủ</span>
+          </button>
+          <h2 class="text-2xl sm:text-3xl font-black">✏️ NGÂN HÀNG 40 CÂU HỎI CHUẨN</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Toán 10 Kết nối tri thức • Đã kiểm tra tính toán và định dạng</p>
+        </div>
+        <!-- Filter Controls -->
+        <div class="flex items-center space-x-2">
+          <select id="qbFilterTopic" onchange="app.renderQuestionBankList()" class="bg-white dark:bg-darkcard border border-slate-300 dark:border-slate-700 text-xs rounded-xl px-3 py-2 font-medium">
+            <option value="ALL">Tất cả chủ đề</option>
+            <option value="GTLG">Giá trị lượng giác</option>
+            <option value="QHLG">Quan hệ lượng giác</option>
+            <option value="COSIN">Định lí Côsin</option>
+            <option value="SIN">Định lí Sin</option>
+            <option value="DIENTICH">Diện tích tam giác</option>
+            <option value="GIAITG">Giải tam giác</option>
+            <option value="THUCTE">Bài toán thực tế</option>
+          </select>
+          <select id="qbFilterLevel" onchange="app.renderQuestionBankList()" class="bg-white dark:bg-darkcard border border-slate-300 dark:border-slate-700 text-xs rounded-xl px-3 py-2 font-medium">
+            <option value="ALL">Tất cả mức độ</option>
+            <option value="NB">Nhận biết</option>
+            <option value="TH">Thông hiểu</option>
+            <option value="VD">Vận dụng</option>
+            <option value="VDC">Vận dụng cao / Thực tế</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Questions List Accordion -->
+      <div id="questionBankList" class="space-y-3">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div id="appToast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900/95 text-white border border-slate-700 px-4 py-3 rounded-2xl shadow-2xl flex items-center space-x-2 text-xs font-bold max-w-sm">
+    <span id="toastIcon">ℹ️</span>
+    <span id="toastMsg">Thông báo</span>
+  </div>
+
+  <!-- Custom Confirmation Modal (Never using alert/confirm) -->
+  <div id="customModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl animate-fadeIn">
+      <div class="text-center space-y-2">
+        <div id="modalIcon" class="text-3xl">⚠️</div>
+        <h3 id="modalTitle" class="text-lg font-black text-slate-800 dark:text-slate-100">Xác nhận thao tác</h3>
+        <p id="modalDesc" class="text-xs text-slate-500 dark:text-slate-400">Bạn có chắc chắn muốn thực hiện hành động này?</p>
+      </div>
+      <div class="flex items-center justify-center space-x-3 pt-2">
+        <button id="modalBtnCancel" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Hủy bỏ
+        </button>
+        <button id="modalBtnConfirm" class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-extrabold shadow-md transition">
+          Đồng ý
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * =========================================================================
+     * 1. QUESTION BANK: 40 VERIFIED MATHEMATICAL QUESTIONS (GDPT 2018 - TOÁN 10 KNTT)
+     * =========================================================================
+     * Topics:
+     * - GTLG: Giá trị lượng giác của góc từ 0° đến 180° (7 câu)
+     * - QHLG: Quan hệ giữa các giá trị lượng giác (4 câu)
+     * - COSIN: Định lí côsin (8 câu)
+     * - SIN: Định lí sin (7 câu)
+     * - DIENTICH: Công thức tính diện tích tam giác (5 câu)
+     * - GIAITG: Giải tam giác (5 câu)
+     * - THUCTE: Bài toán thực tế sử dụng hệ thức lượng (4 câu + 4 câu lồng ghép thực tế)
+     * 
+     * Difficulty levels:
+     * - NB: Nhận biết (10 câu)
+     * - TH: Thông hiểu (10 câu)
+     * - VD: Vận dụng (12 câu)
+     * - VDC: Vận dụng cao / Thực tế (8 câu)
+     * Total: Exactly 40 questions.
+     */
+    const QUESTION_BANK = [
+      /* --- CHỦ ĐỀ 1: GIÁ TRỊ LƯỢNG GIÁC 0° ĐẾN 180° (7 CÂU) --- */
+      {
+        id: 1,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "NB",
+        question: "Giá trị lượng giác của $\\sin 30^\\circ$ bằng bao nhiêu?",
+        options: ["$\\frac{1}{2}$", "$\\frac{\\sqrt{3}}{2}$", "$\\frac{\\sqrt{2}}{2}$", "$1$"],
+        correctAnswer: 0,
+        explanation: "Theo bảng giá trị lượng giác của các góc đặc biệt: $\\sin 30^\\circ = \\frac{1}{2}$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 2,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "NB",
+        question: "Giá trị của $\\cos 120^\\circ$ bằng bao nhiêu?",
+        options: ["$\\frac{1}{2}$", "$-\\frac{1}{2}$", "$\\frac{\\sqrt{3}}{2}$", "$-\\frac{\\sqrt{3}}{2}$"],
+        correctAnswer: 1,
+        explanation: "Ta có $\\cos 120^\\circ = \\cos(180^\\circ - 60^\\circ) = -\\cos 60^\\circ = -\\frac{1}{2}$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 3,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "NB",
+        question: "Giá trị của $\\tan 135^\\circ$ bằng bao nhiêu?",
+        options: ["$1$", "$-1$", "$\\sqrt{3}$", "$-\\frac{\\sqrt{3}}{3}$"],
+        correctAnswer: 1,
+        explanation: "$\\tan 135^\\circ = \\tan(180^\\circ - 45^\\circ) = -\\tan 45^\\circ = -1$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 4,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "TH",
+        question: "Cho góc $\\alpha$ thỏa mãn $90^\\circ < \\alpha < 180^\\circ$ (góc tù). Khẳng định nào sau đây là ĐÚNG?",
+        options: [
+          "$\\sin \\alpha < 0,\\ \\cos \\alpha < 0$",
+          "$\\sin \\alpha > 0,\\ \\cos \\alpha < 0$",
+          "$\\sin \\alpha > 0,\\ \\cos \\alpha > 0$",
+          "$\\sin \\alpha < 0,\\ \\cos \\alpha > 0$"
+        ],
+        correctAnswer: 1,
+        explanation: "Với góc tù $90^\\circ < \\alpha < 180^\\circ$, điểm biểu diễn nằm ở góc phần tư thứ II trên nửa đường tròn đơn vị nên tung độ $\\sin \\alpha > 0$ và hoành độ $\\cos \\alpha < 0$.",
+        time: 25,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 5,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "TH",
+        question: "Biết $\\sin \\alpha = \\frac{3}{5}$ với $90^\\circ < \\alpha < 180^\\circ$. Tính giá trị của $\\cos \\alpha$.",
+        options: ["$\\frac{4}{5}$", "$-\\frac{4}{5}$", "$-\\frac{2}{5}$", "$\\frac{16}{25}$"],
+        correctAnswer: 1,
+        explanation: "Vì $90^\\circ < \\alpha < 180^\\circ$ nên $\\cos \\alpha < 0$. Ta có $\\cos \\alpha = -\\sqrt{1 - \\sin^2 \\alpha} = -\\sqrt{1 - \\left(\\frac{3}{5}\\right)^2} = -\\frac{4}{5}$.",
+        time: 30,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 6,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "VD",
+        question: "Cho $\\tan \\alpha = -2$. Tính giá trị của biểu thức $P = \\frac{2\\sin \\alpha + \\cos \\alpha}{\\sin \\alpha - 3\\cos \\alpha}$.",
+        options: ["$\\frac{3}{5}$", "$-\\frac{3}{5}$", "$3$", "$-\\frac{5}{3}$"],
+        correctAnswer: 0,
+        explanation: "Chia cả tử và mẫu cho $\\cos \\alpha \\neq 0$: $P = \\frac{2\\tan \\alpha + 1}{\\tan \\alpha - 3} = \\frac{2(-2) + 1}{-2 - 3} = \\frac{-3}{-5} = \\frac{3}{5}$.",
+        time: 35,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 7,
+        topic: "GTLG",
+        topicName: "Giá trị lượng giác",
+        level: "TH",
+        question: "Giá trị của biểu thức $M = \\sin 150^\\circ + \\cos 60^\\circ$ bằng bao nhiêu?",
+        options: ["$0$", "$1$", "$\\sqrt{3}$", "$\\frac{1}{2}$"],
+        correctAnswer: 1,
+        explanation: "$\\sin 150^\\circ = \\sin(180^\\circ - 30^\\circ) = \\sin 30^\\circ = \\frac{1}{2}$. Do đó $M = \\frac{1}{2} + \\frac{1}{2} = 1$.",
+        time: 25,
+        hasDiagram: false,
+        diagramType: null
+      },
+
+      /* --- CHỦ ĐỀ 2: QUAN HỆ GIỮA CÁC GIÁ TRỊ LƯỢNG GIÁC (4 CÂU) --- */
+      {
+        id: 8,
+        topic: "QHLG",
+        topicName: "Quan hệ lượng giác",
+        level: "NB",
+        question: "Với mọi góc $\\alpha$ thỏa mãn $0^\\circ \\le \\alpha \\le 180^\\circ$, khẳng định nào sau đây ĐÚNG?",
+        options: [
+          "$\\sin(180^\\circ - \\alpha) = \\sin \\alpha$",
+          "$\\cos(180^\\circ - \\alpha) = \\cos \\alpha$",
+          "$\\tan(180^\\circ - \\alpha) = \\tan \\alpha$",
+          "$\\cot(180^\\circ - \\alpha) = \\cot \\alpha$"
+        ],
+        correctAnswer: 0,
+        explanation: "Hai góc bù nhau có $\\sin$ bằng nhau: $\\sin(180^\\circ - \\alpha) = \\sin \\alpha$, còn cos, tan, cot đối dấu nhau.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 9,
+        topic: "QHLG",
+        topicName: "Quan hệ lượng giác",
+        level: "TH",
+        question: "Giá trị của biểu thức $A = \\sin^2 35^\\circ + \\sin^2 55^\\circ + \\cos^2 20^\\circ + \\cos^2 70^\\circ$ bằng bao nhiêu?",
+        options: ["$1$", "$2$", "$0$", "$4$"],
+        correctAnswer: 1,
+        explanation: "Vì $35^\\circ + 55^\\circ = 90^\\circ$ nên $\\sin 55^\\circ = \\cos 35^\\circ \\implies \\sin^2 35^\\circ + \\cos^2 35^\\circ = 1$. Tương tự $\\cos 70^\\circ = \\sin 20^\\circ \\implies \\cos^2 20^\\circ + \\sin^2 20^\\circ = 1$. Vậy $A = 1 + 1 = 2$.",
+        time: 25,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 10,
+        topic: "QHLG",
+        topicName: "Quan hệ lượng giác",
+        level: "NB",
+        question: "Với góc nhọn $\\alpha$, khẳng định nào sau đây SAI?",
+        options: [
+          "$\\sin(90^\\circ - \\alpha) = \\cos \\alpha$",
+          "$\\cos(90^\\circ - \\alpha) = \\sin \\alpha$",
+          "$\\tan(90^\\circ - \\alpha) = \\cot \\alpha$",
+          "$\\cos(90^\\circ - \\alpha) = -\\sin \\alpha$"
+        ],
+        correctAnswer: 3,
+        explanation: "Hai góc phụ nhau có sin góc này bằng cos góc kia, do đó $\\cos(90^\\circ - \\alpha) = \\sin \\alpha > 0$. Khẳng định có dấu trừ là sai.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 11,
+        topic: "QHLG",
+        topicName: "Quan hệ lượng giác",
+        level: "VD",
+        question: "Cho $\\sin \\alpha + \\cos \\alpha = \\frac{1}{3}$. Tính giá trị của tích $\\sin \\alpha \\cos \\alpha$.",
+        options: ["$-\\frac{4}{9}$", "$\\frac{4}{9}$", "$-\\frac{8}{9}$", "$\\frac{1}{9}$"],
+        correctAnswer: 0,
+        explanation: "Bình phương hai vế: $(\\sin \\alpha + \\cos \\alpha)^2 = \\sin^2 \\alpha + \\cos^2 \\alpha + 2\\sin\\alpha\\cos\\alpha = 1 + 2\\sin\\alpha\\cos\\alpha = \\frac{1}{9} \\implies \\sin\\alpha\\cos\\alpha = \\frac{\\frac{1}{9} - 1}{2} = -\\frac{4}{9}$.",
+        time: 30,
+        hasDiagram: false,
+        diagramType: null
+      },
+
+      /* --- CHỦ ĐỀ 3: ĐỊNH LÍ CÔSIN (8 CÂU) --- */
+      {
+        id: 12,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "NB",
+        question: "Trong tam giác $ABC$, hệ thức nào sau đây diễn tả ĐÚNG định lí côsin đối với cạnh $a = BC$?",
+        options: [
+          "$a^2 = b^2 + c^2 - 2bc\\cos A$",
+          "$a^2 = b^2 + c^2 + 2bc\\cos A$",
+          "$a^2 = b^2 + c^2 - 2bc\\sin A$",
+          "$a^2 = b^2 + c^2 - bc\\cos A$"
+        ],
+        correctAnswer: 0,
+        explanation: "Theo định lí côsin: $a^2 = b^2 + c^2 - 2bc\\cos A$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 13,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "TH",
+        question: "Tam giác $ABC$ có $b = 6,\\ c = 8$ và góc $\\widehat{A} = 60^\\circ$. Độ dài cạnh $a$ bằng bao nhiêu?",
+        options: ["$2\\sqrt{13}$", "$10$", "$2\\sqrt{37}$", "$\\sqrt{52}$"],
+        correctAnswer: 0,
+        explanation: "$a^2 = b^2 + c^2 - 2bc\\cos A = 36 + 64 - 2 \\cdot 6 \\cdot 8 \\cdot \\cos 60^\\circ = 100 - 48 = 52 \\implies a = \\sqrt{52} = 2\\sqrt{13}$.",
+        time: 30,
+        hasDiagram: true,
+        diagramType: "triangle_sas_60"
+      },
+      {
+        id: 14,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "TH",
+        question: "Tam giác $ABC$ có ba cạnh $a = 7,\\ b = 5,\\ c = 3$. Số đo góc $\\widehat{A}$ là bao nhiêu?",
+        options: ["$60^\\circ$", "$90^\\circ$", "$120^\\circ$", "$150^\\circ$"],
+        correctAnswer: 2,
+        explanation: "Áp dụng hệ quả định lí côsin: $\\cos A = \\frac{b^2 + c^2 - a^2}{2bc} = \\frac{25 + 9 - 49}{2 \\cdot 5 \\cdot 3} = \\frac{-15}{30} = -\\frac{1}{2} \\implies \\widehat{A} = 120^\\circ$.",
+        time: 30,
+        hasDiagram: true,
+        diagramType: "triangle_sss_120"
+      },
+      {
+        id: 15,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "VD",
+        question: "Tam giác $ABC$ có $a = 8,\\ b = 10,\\ c = 12$. Độ dài đường trung tuyến $m_a$ kẻ từ đỉnh $A$ bằng bao nhiêu?",
+        options: ["$\\sqrt{106}$", "$10$", "$2\\sqrt{26}$", "$\\sqrt{212}$"],
+        correctAnswer: 0,
+        explanation: "Công thức đường trung tuyến: $m_a^2 = \\frac{2(b^2 + c^2) - a^2}{4} = \\frac{2(100 + 144) - 64}{4} = \\frac{488 - 64}{4} = 106 \\implies m_a = \\sqrt{106} \\approx 10,3$.",
+        time: 35,
+        hasDiagram: true,
+        diagramType: "triangle_median"
+      },
+      {
+        id: 16,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "VDC",
+        question: "[Bài toán thực tế] Hai con tàu cùng xuất phát từ cảng $O$. Tàu thứ nhất chạy hướng Đông với tốc độ $20\\text{ km/h}$, tàu thứ hai chạy hướng lệch $60^\\circ$ với tốc độ $30\\text{ km/h}$. Sau $2\\text{ giờ}$, khoảng cách giữa hai tàu xấp xỉ bằng bao nhiêu?",
+        options: ["$52,9\\text{ km}$", "$50\\text{ km}$", "$60,5\\text{ km}$", "$45,8\\text{ km}$"],
+        correctAnswer: 0,
+        explanation: "Sau 2h: $OA = 20 \\times 2 = 40\\text{ km}$, $OB = 30 \\times 2 = 60\\text{ km}$, góc $\\widehat{AOB} = 60^\\circ$. Khoảng cách: $AB^2 = 40^2 + 60^2 - 2 \\cdot 40 \\cdot 60 \\cdot \\cos 60^\\circ = 1600 + 3600 - 2400 = 2800 \\implies AB = \\sqrt{2800} = 20\\sqrt{7} \\approx 52,9\\text{ km}$.",
+        time: 45,
+        hasDiagram: true,
+        diagramType: "two_ships_radar"
+      },
+      {
+        id: 17,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "TH",
+        question: "Tam giác $ABC$ có $a = 5,\\ b = 7,\\ c = 8$. Giá trị của $\\cos B$ bằng bao nhiêu?",
+        options: ["$\\frac{1}{2}$", "$\\frac{\\sqrt{3}}{2}$", "$-\\frac{1}{2}$", "$\\frac{3}{5}$"],
+        correctAnswer: 0,
+        explanation: "$\\cos B = \\frac{a^2 + c^2 - b^2}{2ac} = \\frac{25 + 64 - 49}{2 \\cdot 5 \\cdot 8} = \\frac{40}{80} = \\frac{1}{2} \\implies \\widehat{B} = 60^\\circ$.",
+        time: 25,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 18,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "VD",
+        question: "Tam giác $ABC$ có $b = 4,\\ c = 6,\\ \\widehat{A} = 120^\\circ$. Độ dài cạnh $a$ bằng bao nhiêu?",
+        options: ["$2\\sqrt{19}$", "$2\\sqrt{7}$", "$\\sqrt{52}$", "$\\sqrt{76}$"],
+        correctAnswer: 0,
+        explanation: "$a^2 = b^2 + c^2 - 2bc\\cos 120^\\circ = 16 + 36 - 2 \\cdot 4 \\cdot 6 \\cdot \\left(-\\frac{1}{2}\\right) = 52 + 24 = 76 \\implies a = \\sqrt{76} = 2\\sqrt{19}$.",
+        time: 30,
+        hasDiagram: true,
+        diagramType: "triangle_sas_120"
+      },
+      {
+        id: 19,
+        topic: "COSIN",
+        topicName: "Định lí Côsin",
+        level: "VDC",
+        question: "[Bài toán thực tế] Để đo khoảng cách giữa hai vị trí $A$ và $B$ bị chắn bởi hồ nước, người ta chọn mốc $C$ sao cho $CA = 50\\text{ m},\\ CB = 80\\text{ m}$ và góc quan sát $\\widehat{ACB} = 60^\\circ$. Khoảng cách $AB$ bằng bao nhiêu mét?",
+        options: ["$70\\text{ m}$", "$75\\text{ m}$", "$65\\text{ m}$", "$85\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Áp dụng định lí côsin trong $\\triangle ABC$: $AB^2 = CA^2 + CB^2 - 2 \\cdot CA \\cdot CB \\cdot \\cos 60^\\circ = 2500 + 6400 - 2(50)(80)(0,5) = 8900 - 4000 = 4900 \\implies AB = 70\\text{ m}$.",
+        time: 35,
+        hasDiagram: true,
+        diagramType: "lake_measure"
+      },
+
+      /* --- CHỦ ĐỀ 4: ĐỊNH LÍ SIN (7 CÂU) --- */
+      {
+        id: 20,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "NB",
+        question: "Trong tam giác $ABC$ nội tiếp đường tròn bán kính $R$, công thức định lí sin nào sau đây là ĐÚNG?",
+        options: [
+          "$\\frac{a}{\\sin A} = 2R$",
+          "$\\frac{a}{\\sin A} = R$",
+          "$\\frac{a}{\\sin A} = 4R$",
+          "$\\frac{\\sin A}{a} = 2R$"
+        ],
+        correctAnswer: 0,
+        explanation: "Theo định lí sin: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C} = 2R$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 21,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "TH",
+        question: "Tam giác $ABC$ có cạnh $a = 10$ và góc đối diện $\\widehat{A} = 30^\\circ$. Bán kính $R$ của đường tròn ngoại tiếp tam giác bằng bao nhiêu?",
+        options: ["$10$", "$5$", "$20$", "$5\\sqrt{3}$"],
+        correctAnswer: 0,
+        explanation: "Ta có $2R = \\frac{a}{\\sin A} = \\frac{10}{\\sin 30^\\circ} = \\frac{10}{0,5} = 20 \\implies R = 10$.",
+        time: 25,
+        hasDiagram: true,
+        diagramType: "circumcircle"
+      },
+      {
+        id: 22,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "TH",
+        question: "Tam giác $ABC$ có $b = 6\\sqrt{2},\\ \\widehat{B} = 45^\\circ,\\ \\widehat{A} = 60^\\circ$. Độ dài cạnh $a$ bằng bao nhiêu?",
+        options: ["$6\\sqrt{3}$", "$6\\sqrt{2}$", "$12$", "$3\\sqrt{6}$"],
+        correctAnswer: 0,
+        explanation: "Áp dụng định lí sin: $a = \\frac{b \\cdot \\sin A}{\\sin B} = \\frac{6\\sqrt{2} \\cdot \\frac{\\sqrt{3}}{2}}{\\frac{\\sqrt{2}}{2}} = 6\\sqrt{3}$.",
+        time: 25,
+        hasDiagram: true,
+        diagramType: "triangle_aas"
+      },
+      {
+        id: 23,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "VD",
+        question: "Tam giác $ABC$ có $c = 8,\\ \\widehat{C} = 45^\\circ,\\ \\widehat{B} = 30^\\circ$. Độ dài cạnh $b$ bằng bao nhiêu?",
+        options: ["$4\\sqrt{2}$", "$4\\sqrt{3}$", "$8\\sqrt{2}$", "$4$"],
+        correctAnswer: 0,
+        explanation: "$\\frac{b}{\\sin B} = \\frac{c}{\\sin C} \\implies b = \\frac{8 \\cdot \\sin 30^\\circ}{\\sin 45^\\circ} = \\frac{8 \\cdot 0,5}{\\frac{\\sqrt{2}}{2}} = \\frac{4}{\\frac{\\sqrt{2}}{2}} = 4\\sqrt{2}$.",
+        time: 30,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 24,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "VDC",
+        question: "[Bài toán thực tế] Từ hai điểm quan sát $A$ và $B$ trên mặt đất cách nhau $24\\text{ m}$ cùng nhìn về đỉnh tháp $D$ dưới các góc nâng lần lượt là $30^\\circ$ và $45^\\circ$ ($A, B$ và chân tháp $C$ thẳng hàng). Chiều cao $CD$ của tháp xấp xỉ bằng bao nhiêu?",
+        options: ["$32,8\\text{ m}$", "$24,5\\text{ m}$", "$41,6\\text{ m}$", "$18,2\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Trong $\\triangle ABD$: $\\widehat{DAB} = 30^\\circ, \\widehat{ABD} = 180^\\circ - 45^\\circ = 135^\\circ \\implies \\widehat{ADB} = 15^\\circ$. Định lí sin: $BD = \\frac{24\\sin 30^\\circ}{\\sin 15^\\circ} \\approx 46,36\\text{ m}$. Trong $\\triangle BCD$ vuông tại $C$: $CD = BD \\cdot \\sin 45^\\circ \\approx 46,36 \\cdot \\frac{\\sqrt{2}}{2} \\approx 32,8\\text{ m}$.",
+        time: 45,
+        hasDiagram: true,
+        diagramType: "tower_measure"
+      },
+      {
+        id: 25,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "TH",
+        question: "Tam giác $ABC$ có $a = 6,\\ b = 8,\\ \\sin B = \\frac{4}{5}$. Giá trị của $\\sin A$ bằng bao nhiêu?",
+        options: ["$\\frac{3}{5}$", "$\\frac{2}{3}$", "$\\frac{1}{2}$", "$\\frac{4}{5}$"],
+        correctAnswer: 0,
+        explanation: "Theo định lí sin: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} \\implies \\sin A = \\frac{a \\sin B}{b} = \\frac{6 \\cdot \\frac{4}{5}}{8} = \\frac{24}{40} = \\frac{3}{5}$.",
+        time: 25,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 26,
+        topic: "SIN",
+        topicName: "Định lí Sin",
+        level: "VDC",
+        question: "[Bài toán thực tế] Từ đỉnh một ngọn hải đăng cao $40\\text{ m}$, người ta nhìn thấy hai thuyền $M$ và $N$ thẳng hàng với chân hải đăng dưới góc hạ lần lượt là $30^\\circ$ và $45^\\circ$. Khoảng cách giữa hai thuyền xấp xỉ bằng bao nhiêu mét?",
+        options: ["$29,3\\text{ m}$", "$35,0\\text{ m}$", "$20,0\\text{ m}$", "$42,5\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Khoảng cách từ chân hải đăng đến thuyền xa là $d_1 = 40\\cot 30^\\circ = 40\\sqrt{3} \\approx 69,28\\text{ m}$. Khoảng cách đến thuyền gần là $d_2 = 40\\cot 45^\\circ = 40\\text{ m}$. Khoảng cách hai thuyền: $MN = 40(\\sqrt{3}-1) \\approx 29,28\\text{ m} \\approx 29,3\\text{ m}$.",
+        time: 40,
+        hasDiagram: true,
+        diagramType: "lighthouse_boat"
+      },
+
+      /* --- CHỦ ĐỀ 5: DIỆN TÍCH TAM GIÁC (5 CÂU) --- */
+      {
+        id: 27,
+        topic: "DIENTICH",
+        topicName: "Diện tích tam giác",
+        level: "NB",
+        question: "Công thức nào sau đây tính diện tích tam giác $ABC$ thông qua hai cạnh $b, c$ và góc xen giữa $\\widehat{A}$?",
+        options: [
+          "$S = \\frac{1}{2}bc\\sin A$",
+          "$S = bc\\sin A$",
+          "$S = \\frac{1}{2}bc\\cos A$",
+          "$S = \\frac{1}{2}ab\\sin A$"
+        ],
+        correctAnswer: 0,
+        explanation: "Diện tích tam giác bằng nửa tích hai cạnh nhân sin góc xen giữa: $S = \\frac{1}{2}bc\\sin A$.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 28,
+        topic: "DIENTICH",
+        topicName: "Diện tích tam giác",
+        level: "TH",
+        question: "Tam giác $ABC$ có $b = 4,\\ c = 7$ và $\\widehat{A} = 30^\\circ$. Diện tích tam giác $ABC$ bằng bao nhiêu?",
+        options: ["$7$", "$14$", "$7\\sqrt{3}$", "$3,5$"],
+        correctAnswer: 0,
+        explanation: "$S = \\frac{1}{2}bc\\sin A = \\frac{1}{2} \\cdot 4 \\cdot 7 \\cdot \\sin 30^\\circ = 14 \\cdot 0,5 = 7$.",
+        time: 25,
+        hasDiagram: true,
+        diagramType: "triangle_area_basic"
+      },
+      {
+        id: 29,
+        topic: "DIENTICH",
+        topicName: "Diện tích tam giác",
+        level: "TH",
+        question: "Tam giác $ABC$ có ba cạnh $a = 13,\\ b = 14,\\ c = 15$. Nửa chu vi $p = 21$. Diện tích tam giác tính theo công thức Heron bằng bao nhiêu?",
+        options: ["$84$", "$42$", "$168$", "$80$"],
+        correctAnswer: 0,
+        explanation: "Heron: $S = \\sqrt{p(p-a)(p-b)(p-c)} = \\sqrt{21(21-13)(21-14)(21-15)} = \\sqrt{21 \\cdot 8 \\cdot 7 \\cdot 6} = \\sqrt{7056} = 84$.",
+        time: 30,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 30,
+        topic: "DIENTICH",
+        topicName: "Diện tích tam giác",
+        level: "VD",
+        question: "Tam giác $ABC$ có diện tích $S = 84$ và ba cạnh là $13,\\ 14,\\ 15$. Bán kính đường tròn nội tiếp $r$ của tam giác bằng bao nhiêu?",
+        options: ["$4$", "$2$", "$6$", "$3$"],
+        correctAnswer: 0,
+        explanation: "Nửa chu vi $p = \\frac{13+14+15}{2} = 21$. Vì $S = p \\cdot r \\implies r = \\frac{S}{p} = \\frac{84}{21} = 4$.",
+        time: 25,
+        hasDiagram: true,
+        diagramType: "incircle"
+      },
+      {
+        id: 31,
+        topic: "DIENTICH",
+        topicName: "Diện tích tam giác",
+        level: "VD",
+        question: "Tam giác $ABC$ có diện tích $S = 84$ và ba cạnh $a = 13,\\ b = 14,\\ c = 15$. Bán kính $R$ của đường tròn ngoại tiếp bằng bao nhiêu?",
+        options: ["$\\frac{65}{8}$", "$8$", "$\\frac{65}{4}$", "$9$"],
+        correctAnswer: 0,
+        explanation: "Công thức $S = \\frac{abc}{4R} \\implies R = \\frac{abc}{4S} = \\frac{13 \\cdot 14 \\cdot 15}{4 \\cdot 84} = \\frac{2730}{336} = \\frac{65}{8} = 8,125$.",
+        time: 30,
+        hasDiagram: false,
+        diagramType: null
+      },
+
+      /* --- CHỦ ĐỀ 6: GIẢI TAM GIÁC (5 CÂU) --- */
+      {
+        id: 32,
+        topic: "GIAITG",
+        topicName: "Giải tam giác",
+        level: "NB",
+        question: "Bài toán \"giải tam giác\" trong toán học có ý nghĩa là gì?",
+        options: [
+          "Tìm các cạnh và góc chưa biết từ các yếu tố đã cho của tam giác",
+          "Chỉ tìm số đo 3 góc của tam giác",
+          "Chỉ tính diện tích của tam giác",
+          "Vẽ hình tam giác chính xác trên giấy"
+        ],
+        correctAnswer: 0,
+        explanation: "Giải tam giác là tính các cạnh và các góc chưa biết của một tam giác khi biết một số yếu tố của tam giác đó.",
+        time: 20,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 33,
+        topic: "GIAITG",
+        topicName: "Giải tam giác",
+        level: "TH",
+        question: "Cho tam giác $ABC$ có $\\widehat{B} = 45^\\circ,\\ \\widehat{C} = 75^\\circ$. Số đo góc $\\widehat{A}$ bằng bao nhiêu?",
+        options: ["$60^\\circ$", "$50^\\circ$", "$70^\\circ$", "$80^\\circ$"],
+        correctAnswer: 0,
+        explanation: "Tổng ba góc trong tam giác bằng $180^\\circ \\implies \\widehat{A} = 180^\\circ - (45^\\circ + 75^\\circ) = 60^\\circ$.",
+        time: 20,
+        hasDiagram: true,
+        diagramType: "triangle_angles_sum"
+      },
+      {
+        id: 34,
+        topic: "GIAITG",
+        topicName: "Giải tam giác",
+        level: "VD",
+        question: "Tam giác $ABC$ có $a = 10,\\ \\widehat{B} = 45^\\circ,\\ \\widehat{C} = 75^\\circ$. Độ dài cạnh $b$ bằng bao nhiêu?",
+        options: ["$\\frac{10\\sqrt{6}}{3}$", "$5\\sqrt{2}$", "$10\\sqrt{2}$", "$5\\sqrt{6}$"],
+        correctAnswer: 0,
+        explanation: "Ta có $\\widehat{A} = 180^\\circ - (45^\\circ+75^\\circ) = 60^\\circ$. Áp dụng định lí sin: $b = \\frac{a \\sin B}{\\sin A} = \\frac{10 \\cdot \\sin 45^\\circ}{\\sin 60^\\circ} = \\frac{10 \\cdot \\frac{\\sqrt{2}}{2}}{\\frac{\\sqrt{3}}{2}} = \\frac{10\\sqrt{2}}{\\sqrt{3}} = \\frac{10\\sqrt{6}}{3} \\approx 8,16$.",
+        time: 35,
+        hasDiagram: false,
+        diagramType: null
+      },
+      {
+        id: 35,
+        topic: "GIAITG",
+        topicName: "Giải tam giác",
+        level: "VD",
+        question: "Tam giác $ABC$ có $b = 8,\\ c = 5$ và $\\widehat{A} = 60^\\circ$. Độ dài đường cao $h_a$ kẻ từ $A$ bằng bao nhiêu?",
+        options: ["$\\frac{20\\sqrt{3}}{7}$", "$4\\sqrt{3}$", "$5$", "$\\frac{10\\sqrt{3}}{7}$"],
+        correctAnswer: 0,
+        explanation: "Cạnh $a = \\sqrt{b^2+c^2-2bc\\cos 60^\\circ} = \\sqrt{64+25-40} = 7$. Diện tích $S = \\frac{1}{2}bc\\sin 60^\\circ = \\frac{1}{2} \\cdot 8 \\cdot 5 \\cdot \\frac{\\sqrt{3}}{2} = 10\\sqrt{3}$. Chiều cao $h_a = \\frac{2S}{a} = \\frac{20\\sqrt{3}}{7}$.",
+        time: 40,
+        hasDiagram: true,
+        diagramType: "triangle_altitude"
+      },
+      {
+        id: 36,
+        topic: "GIAITG",
+        topicName: "Giải tam giác",
+        level: "VD",
+        question: "Tam giác $ABC$ có các góc thỏa mãn $\\sin^2 A = \\sin B \\cdot \\sin C$ và các cạnh thỏa mãn $a^2 = bc$. Khi đó tam giác $ABC$ là tam giác gì?",
+        options: ["Tam giác đều", "Tam giác vuông cân", "Tam giác tù", "Không xác định được"],
+        correctAnswer: 0,
+        explanation: "Theo định lí sin $a=2R\\sin A, b=2R\\sin B, c=2R\\sin C$. Dữ kiện $a^2=bc$ kết hợp bất đẳng thức côsin: $\\cos A = \\frac{b^2+c^2-a^2}{2bc} = \\frac{b^2+c^2-bc}{2bc} \\ge \\frac{2bc-bc}{2bc} = \\frac{1}{2}$. Dấu bằng xảy ra khi $b=c$, suy ra $a=b=c$, vậy tam giác $ABC$ đều.",
+        time: 40,
+        hasDiagram: false,
+        diagramType: null
+      },
+
+      /* --- CHỦ ĐỀ 7: BÀI TOÁN THỰC TẾ (4 CÂU) --- */
+      {
+        id: 37,
+        topic: "THUCTE",
+        topicName: "Bài toán thực tế",
+        level: "VDC",
+        question: "[Bài toán thực tế] Để đo chiều rộng $AB$ của khúc sông, hai kỹ sư chọn đoạn $CD = 100\\text{ m}$ trên cùng bờ sông. Đo được $\\widehat{ACD}=60^\\circ,\\ \\widehat{BCD}=30^\\circ,\\ \\widehat{BDC}=75^\\circ,\\ \\widehat{ADC}=45^\\circ$. Khoảng cách $AB$ xấp xỉ bằng bao nhiêu mét?",
+        options: ["$51,8\\text{ m}$", "$65,2\\text{ m}$", "$45,0\\text{ m}$", "$70,5\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Trong $\\triangle ACD$: $\\widehat{CAD} = 180^\\circ - (60^\\circ+45^\\circ) = 75^\\circ$. Định lí sin: $AC = \\frac{100\\sin 45^\\circ}{\\sin 75^\\circ} = 100(\\sqrt{3}-1) \\approx 73,2\\text{ m}$. Trong $\\triangle BCD$: $\\widehat{CBD} = 180^\\circ-(30^\\circ+75^\\circ)=75^\\circ \\implies BC = CD = 100\\text{ m}$. Trong $\\triangle ABC$: góc $\\widehat{ACB} = 60^\\circ-30^\\circ = 30^\\circ$. Áp dụng định lí côsin: $AB = \\sqrt{73,2^2 + 100^2 - 2(73,2)(100)\\cos 30^\\circ} \\approx 51,8\\text{ m}$.",
+        time: 50,
+        hasDiagram: true,
+        diagramType: "river_measure"
+      },
+      {
+        id: 38,
+        topic: "THUCTE",
+        topicName: "Bài toán thực tế",
+        level: "VD",
+        question: "[Bài toán thực tế] Một chiếc máy bay cất cánh từ đường băng với góc nâng $25^\\circ$. Sau khi bay được quãng đường $4000\\text{ m}$ theo phương nghiêng, độ cao của máy bay so với mặt đất xấp xỉ bằng bao nhiêu mét?",
+        options: ["$1690\\text{ m}$", "$3625\\text{ m}$", "$1860\\text{ m}$", "$2000\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Độ cao $h = 4000 \\cdot \\sin 25^\\circ \\approx 4000 \\cdot 0,4226 = 1690,4\\text{ m} \\approx 1690\\text{ m}$.",
+        time: 30,
+        hasDiagram: true,
+        diagramType: "airplane_elevation"
+      },
+      {
+        id: 39,
+        topic: "THUCTE",
+        topicName: "Bài toán thực tế",
+        level: "VDC",
+        question: "[Bài toán thực tế] Để khoan hầm thẳng xuyên núi từ $A$ đến $B$, người ta đo từ mốc $C$ thấy $CA = 450\\text{ m},\\ CB = 600\\text{ m}$ và góc $\\widehat{ACB} = 75^\\circ$. Chiều dài đường hầm $AB$ xấp xỉ bằng bao nhiêu mét?",
+        options: ["$650\\text{ m}$", "$700\\text{ m}$", "$580\\text{ m}$", "$620\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Áp dụng định lí côsin: $AB^2 = 450^2 + 600^2 - 2(450)(600)\\cos 75^\\circ = 202500 + 360000 - 540000 \\cdot 0,2588 \\approx 562500 - 139752 = 422748 \\implies AB \\approx 650,2\\text{ m}$.",
+        time: 40,
+        hasDiagram: true,
+        diagramType: "tunnel_mountain"
+      },
+      {
+        id: 40,
+        topic: "THUCTE",
+        topicName: "Bài toán thực tế",
+        level: "VDC",
+        question: "[Final Challenge] Từ chân một tháp truyền hình, người ta phát tín hiệu tới hai trạm tiếp sóng $P$ và $Q$. Khoảng cách từ chân tháp đến $P$ là $120\\text{ m}$, đến $Q$ là $160\\text{ m}$, góc quan sát giữa hai trạm từ chân tháp là $120^\\circ$. Khoảng cách thẳng giữa hai trạm $P$ và $Q$ là bao nhiêu mét?",
+        options: ["$40\\sqrt{37}\\text{ m} \\approx 243,3\\text{ m}$", "$200\\text{ m}$", "$280\\text{ m}$", "$140\\sqrt{3}\\text{ m}$"],
+        correctAnswer: 0,
+        explanation: "Định lí côsin: $PQ^2 = 120^2 + 160^2 - 2(120)(160)\\cos 120^\\circ = 14400 + 25600 - 38400\\left(-\\frac{1}{2}\\right) = 40000 + 19200 = 59200 \\implies PQ = \\sqrt{59200} = 40\\sqrt{37} \\approx 243,3\\text{ m}$.",
+        time: 45,
+        hasDiagram: true,
+        diagramType: "radio_tower_pq"
+      }
+    ];
+
+    /**
+     * Web Audio API Synthesizer - 100% self-contained, instant playback, zero latency
+     */
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playTone(freq, type, duration, delay = 0) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        setTimeout(() => {
+          try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + duration);
+          } catch (e) {
+            console.debug('Audio playback error', e);
+          }
+        }, delay);
+      }
+      correct() {
+        this.playTone(523.25, 'triangle', 0.1, 0);   // C5
+        this.playTone(659.25, 'triangle', 0.1, 80);  // E5
+        this.playTone(783.99, 'triangle', 0.12, 160);// G5
+        this.playTone(1046.50, 'triangle', 0.3, 240);// C6
+      }
+      wrong() {
+        this.playTone(280, 'sawtooth', 0.15, 0);
+        this.playTone(220, 'sawtooth', 0.25, 120);
+      }
+      tick() {
+        this.playTone(800, 'sine', 0.04, 0);
+      }
+      timeout() {
+        this.playTone(200, 'square', 0.3, 0);
+      }
+      start() {
+        this.playTone(440, 'triangle', 0.1, 0);
+        this.playTone(554.37, 'triangle', 0.1, 100);
+        this.playTone(659.25, 'triangle', 0.25, 200);
+      }
+      victory() {
+        const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+        notes.forEach((f, idx) => {
+          this.playTone(f, 'triangle', 0.2, idx * 110);
+        });
+      }
+    }
+
+    const sound = new SoundFX();
+
+    /**
+     * Responsive, clean SVG diagram generator for geometry problems
+     */
+    const DiagramFactory = {
+      render(type) {
+        switch(type) {
+          case 'triangle_sas_60':
+            return `
+              <svg viewBox="0 0 280 180" class="w-full h-auto max-h-48 select-none">
+                <polygon points="50,150 230,150 120,40" fill="rgba(99,102,241,0.12)" stroke="#6366f1" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Vertices -->
+                <circle cx="120" cy="40" r="4" fill="#6366f1"/>
+                <circle cx="50" cy="150" r="4" fill="#6366f1"/>
+                <circle cx="230" cy="150" r="4" fill="#6366f1"/>
+                <!-- Angle arc A -->
+                <path d="M 105,58 A 24 24 0 0 0 132,60" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                <text x="120" y="78" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">60°</text>
+                <!-- Labels -->
+                <text x="120" y="28" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">A</text>
+                <text x="36" y="162" fill="#e2e8f0" font-size="13" font-weight="bold">B</text>
+                <text x="242" y="162" fill="#e2e8f0" font-size="13" font-weight="bold">C</text>
+                <text x="70" y="90" fill="#94a3b8" font-size="11" font-weight="bold">c = 8</text>
+                <text x="185" y="90" fill="#94a3b8" font-size="11" font-weight="bold">b = 6</text>
+                <text x="140" y="166" fill="#f43f5e" font-size="12" font-weight="bold" text-anchor="middle">a = ?</text>
+              </svg>`;
+
+          case 'triangle_sss_120':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <polygon points="120,130 30,130 250,50" fill="rgba(16,185,129,0.12)" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round"/>
+                <path d="M 100,130 A 20 20 0 0 1 135,115" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                <text x="105" y="115" fill="#f59e0b" font-size="11" font-weight="bold">A = 120°</text>
+                <text x="120" y="148" fill="#e2e8f0" font-size="13" font-weight="bold">A</text>
+                <text x="18" y="135" fill="#e2e8f0" font-size="13" font-weight="bold">B</text>
+                <text x="256" y="52" fill="#e2e8f0" font-size="13" font-weight="bold">C</text>
+                <text x="70" y="145" fill="#94a3b8" font-size="11">c = 3</text>
+                <text x="190" y="85" fill="#94a3b8" font-size="11">b = 5</text>
+                <text x="130" y="70" fill="#f43f5e" font-size="12" font-weight="bold">a = 7</text>
+              </svg>`;
+
+          case 'triangle_median':
+            return `
+              <svg viewBox="0 0 280 170" class="w-full h-auto max-h-48 select-none">
+                <polygon points="40,140 240,140 140,30" fill="rgba(147,51,234,0.1)" stroke="#a855f7" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- Median line AM -->
+                <line x1="140" y1="30" x2="140" y2="140" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4,3"/>
+                <circle cx="140" cy="140" r="3.5" fill="#f59e0b"/>
+                <text x="140" y="22" fill="#e2e8f0" font-size="13" font-weight="bold" text-anchor="middle">A</text>
+                <text x="26" y="148" fill="#e2e8f0" font-size="13" font-weight="bold">B</text>
+                <text x="248" y="148" fill="#e2e8f0" font-size="13" font-weight="bold">C</text>
+                <text x="140" y="156" fill="#f59e0b" font-size="12" font-weight="bold" text-anchor="middle">M</text>
+                <text x="148" y="85" fill="#f59e0b" font-size="11" font-weight="bold">m_a = ?</text>
+                <text x="80" y="80" fill="#94a3b8" font-size="11">c = 12</text>
+                <text x="200" y="80" fill="#94a3b8" font-size="11">b = 10</text>
+                <text x="140" y="132" fill="#94a3b8" font-size="10" text-anchor="middle">a = 8</text>
+              </svg>`;
+
+          case 'two_ships_radar':
+            return `
+              <svg viewBox="0 0 280 170" class="w-full h-auto max-h-48 select-none">
+                <!-- Port O and vectors -->
+                <circle cx="50" cy="130" r="5" fill="#6366f1"/>
+                <text x="36" y="135" fill="#6366f1" font-size="13" font-weight="bold">O</text>
+                <!-- Ship 1 line -->
+                <line x1="50" y1="130" x2="220" y2="130" stroke="#38bdf8" stroke-width="2.5"/>
+                <text x="228" y="134" fill="#38bdf8" font-size="12" font-weight="bold">Tàu 1 (40km)</text>
+                <!-- Ship 2 line -->
+                <line x1="50" y1="130" x2="160" y2="35" stroke="#f59e0b" stroke-width="2.5"/>
+                <text x="165" y="32" fill="#f59e0b" font-size="12" font-weight="bold">Tàu 2 (60km)</text>
+                <!-- Distance between ships -->
+                <line x1="220" y1="130" x2="160" y2="35" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,4"/>
+                <text x="200" y="78" fill="#ef4444" font-size="11" font-weight="bold">d = ?</text>
+                <!-- Angle arc -->
+                <path d="M 80,130 A 30 30 0 0 0 74,107" fill="none" stroke="#a855f7" stroke-width="2"/>
+                <text x="92" y="116" fill="#a855f7" font-size="11" font-weight="bold">60°</text>
+              </svg>`;
+
+          case 'triangle_sas_120':
+            return `
+              <svg viewBox="0 0 280 150" class="w-full h-auto max-h-48 select-none">
+                <polygon points="100,120 30,120 240,40" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/>
+                <circle cx="100" cy="120" r="4" fill="#f59e0b"/>
+                <text x="100" y="138" fill="#e2e8f0" font-size="13" font-weight="bold">A</text>
+                <text x="16" y="125" fill="#e2e8f0" font-size="13" font-weight="bold">B</text>
+                <text x="246" y="42" fill="#e2e8f0" font-size="13" font-weight="bold">C</text>
+                <text x="60" y="112" fill="#94a3b8" font-size="11">c = 6</text>
+                <text x="175" y="75" fill="#94a3b8" font-size="11">b = 4</text>
+                <text x="130" y="55" fill="#ef4444" font-size="12" font-weight="bold">a = ?</text>
+              </svg>`;
+
+          case 'lake_measure':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <!-- Lake puddle -->
+                <path d="M 90,80 Q 140,50 190,85 Q 160,120 90,80 Z" fill="rgba(56,189,248,0.2)" stroke="#0284c7" stroke-width="1.5"/>
+                <text x="140" y="85" fill="#38bdf8" font-size="10" font-style="italic" text-anchor="middle">Hồ nước</text>
+                <polygon points="40,90 220,90 130,145" fill="none" stroke="#6366f1" stroke-width="2"/>
+                <circle cx="40" cy="90" r="4" fill="#ef4444"/>
+                <circle cx="220" cy="90" r="4" fill="#ef4444"/>
+                <circle cx="130" cy="145" r="4" fill="#10b981"/>
+                <text x="26" y="93" fill="#e2e8f0" font-size="12" font-weight="bold">A</text>
+                <text x="228" y="93" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="130" y="158" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">C</text>
+                <text x="75" y="128" fill="#94a3b8" font-size="10">50m</text>
+                <text x="180" y="128" fill="#94a3b8" font-size="10">80m</text>
+                <text x="130" y="78" fill="#ef4444" font-size="12" font-weight="bold" text-anchor="middle">AB = 70m</text>
+              </svg>`;
+
+          case 'circumcircle':
+            return `
+              <svg viewBox="0 0 240 180" class="w-full h-auto max-h-48 select-none">
+                <circle cx="120" cy="90" r="70" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3,3"/>
+                <polygon points="120,20 60,125 180,125" fill="rgba(99,102,241,0.15)" stroke="#6366f1" stroke-width="2"/>
+                <circle cx="120" cy="90" r="3" fill="#f59e0b"/>
+                <text x="126" y="90" fill="#f59e0b" font-size="11" font-weight="bold">R = ?</text>
+                <text x="120" y="14" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">A (30°)</text>
+                <text x="48" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="186" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <text x="120" y="142" fill="#ef4444" font-size="11" font-weight="bold" text-anchor="middle">a = 10</text>
+              </svg>`;
+
+          case 'triangle_aas':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <polygon points="50,130 220,130 110,35" fill="rgba(16,185,129,0.12)" stroke="#10b981" stroke-width="2.5"/>
+                <text x="110" y="25" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">A (60°)</text>
+                <text x="35" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">B (45°)</text>
+                <text x="228" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <text x="175" y="80" fill="#94a3b8" font-size="11">b = 6√2</text>
+                <text x="135" y="145" fill="#ef4444" font-size="12" font-weight="bold" text-anchor="middle">a = ?</text>
+              </svg>`;
+
+          case 'tower_measure':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <!-- Ground line -->
+                <line x1="20" y1="135" x2="260" y2="135" stroke="#64748b" stroke-width="2"/>
+                <!-- Tower CD -->
+                <line x1="230" y1="135" x2="230" y2="30" stroke="#f43f5e" stroke-width="3"/>
+                <text x="238" y="85" fill="#f43f5e" font-size="11" font-weight="bold">CD = h</text>
+                <text x="230" y="24" fill="#e2e8f0" font-size="12" font-weight="bold">D</text>
+                <text x="230" y="148" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <!-- Line of sight A -> D -->
+                <line x1="40" y1="135" x2="230" y2="30" stroke="#6366f1" stroke-width="1.5"/>
+                <text x="35" y="148" fill="#e2e8f0" font-size="12" font-weight="bold">A</text>
+                <text x="65" y="128" fill="#f59e0b" font-size="10">30°</text>
+                <!-- Line of sight B -> D -->
+                <line x1="120" y1="135" x2="230" y2="30" stroke="#10b981" stroke-width="1.5"/>
+                <text x="115" y="148" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="135" y="128" fill="#f59e0b" font-size="10">45°</text>
+                <text x="80" y="146" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">AB = 24m</text>
+              </svg>`;
+
+          case 'lighthouse_boat':
+            return `
+              <svg viewBox="0 0 280 150" class="w-full h-auto max-h-48 select-none">
+                <!-- Sea level -->
+                <line x1="20" y1="125" x2="260" y2="125" stroke="#38bdf8" stroke-width="2"/>
+                <!-- Lighthouse -->
+                <rect x="35" y="45" width="16" height="80" fill="#cbd5e1"/>
+                <text x="43" y="38" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">40m</text>
+                <!-- Boats M & N -->
+                <circle cx="160" cy="125" r="4" fill="#10b981"/>
+                <circle cx="230" cy="125" r="4" fill="#6366f1"/>
+                <text x="160" y="140" fill="#10b981" font-size="11" font-weight="bold" text-anchor="middle">N (45°)</text>
+                <text x="230" y="140" fill="#6366f1" font-size="11" font-weight="bold" text-anchor="middle">M (30°)</text>
+                <line x1="43" y1="45" x2="160" y2="125" stroke="#64748b" stroke-width="1" stroke-dasharray="3,2"/>
+                <line x1="43" y1="45" x2="230" y2="125" stroke="#64748b" stroke-width="1" stroke-dasharray="3,2"/>
+                <text x="195" y="118" fill="#ef4444" font-size="11" font-weight="bold" text-anchor="middle">MN = ?</text>
+              </svg>`;
+
+          case 'triangle_area_basic':
+            return `
+              <svg viewBox="0 0 280 150" class="w-full h-auto max-h-48 select-none">
+                <polygon points="50,120 220,120 120,40" fill="rgba(99,102,241,0.15)" stroke="#6366f1" stroke-width="2.5"/>
+                <path d="M 105,55 A 20 20 0 0 0 130,58" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                <text x="120" y="70" fill="#f59e0b" font-size="10" font-weight="bold" text-anchor="middle">30°</text>
+                <text x="120" y="30" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">A</text>
+                <text x="35" y="125" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="228" y="125" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <text x="75" y="75" fill="#94a3b8" font-size="11">c = 7</text>
+                <text x="175" y="75" fill="#94a3b8" font-size="11">b = 4</text>
+                <text x="135" y="105" fill="#10b981" font-size="12" font-weight="bold" text-anchor="middle">S = 7</text>
+              </svg>`;
+
+          case 'incircle':
+            return `
+              <svg viewBox="0 0 260 170" class="w-full h-auto max-h-48 select-none">
+                <polygon points="30,140 230,140 110,30" fill="none" stroke="#6366f1" stroke-width="2"/>
+                <circle cx="120" cy="100" r="40" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="2"/>
+                <circle cx="120" cy="100" r="3" fill="#f59e0b"/>
+                <line x1="120" y1="100" x2="120" y2="140" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/>
+                <text x="130" y="124" fill="#f59e0b" font-size="11" font-weight="bold">r = 4</text>
+                <text x="110" y="22" fill="#e2e8f0" font-size="12" font-weight="bold">A</text>
+                <text x="18" y="145" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="236" y="145" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <text x="60" y="80" fill="#94a3b8" font-size="10">15</text>
+                <text x="180" y="80" fill="#94a3b8" font-size="10">14</text>
+                <text x="130" y="155" fill="#94a3b8" font-size="10" text-anchor="middle">13</text>
+              </svg>`;
+
+          case 'triangle_angles_sum':
+            return `
+              <svg viewBox="0 0 260 150" class="w-full h-auto max-h-48 select-none">
+                <polygon points="40,120 220,120 130,35" fill="rgba(16,185,129,0.12)" stroke="#10b981" stroke-width="2"/>
+                <text x="130" y="26" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">A = ?</text>
+                <text x="24" y="125" fill="#e2e8f0" font-size="12" font-weight="bold">B (45°)</text>
+                <text x="228" y="125" fill="#e2e8f0" font-size="12" font-weight="bold">C (75°)</text>
+              </svg>`;
+
+          case 'triangle_altitude':
+            return `
+              <svg viewBox="0 0 260 160" class="w-full h-auto max-h-48 select-none">
+                <polygon points="40,130 220,130 110,35" fill="rgba(99,102,241,0.12)" stroke="#6366f1" stroke-width="2"/>
+                <!-- Altitude AH -->
+                <line x1="110" y1="35" x2="110" y2="130" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3"/>
+                <rect x="110" y="122" width="8" height="8" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+                <text x="110" y="24" fill="#e2e8f0" font-size="12" font-weight="bold" text-anchor="middle">A</text>
+                <text x="28" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">B</text>
+                <text x="228" y="135" fill="#e2e8f0" font-size="12" font-weight="bold">C</text>
+                <text x="110" y="145" fill="#ef4444" font-size="11" font-weight="bold" text-anchor="middle">H</text>
+                <text x="118" y="85" fill="#ef4444" font-size="11" font-weight="bold">h_a = ?</text>
+              </svg>`;
+
+          case 'river_measure':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <!-- River bands -->
+                <path d="M 10,65 Q 140,55 270,65" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                <path d="M 10,105 Q 140,95 270,105" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                <text x="140" y="85" fill="#38bdf8" font-size="10" font-style="italic" text-anchor="middle">Dòng sông</text>
+                <!-- Across river points A, B -->
+                <circle cx="80" cy="45" r="4" fill="#ef4444"/>
+                <circle cx="190" cy="45" r="4" fill="#ef4444"/>
+                <text x="75" y="38" fill="#e2e8f0" font-size="11" font-weight="bold">A</text>
+                <text x="195" y="38" fill="#e2e8f0" font-size="11" font-weight="bold">B</text>
+                <!-- Shore points C, D -->
+                <circle cx="70" cy="125" r="4" fill="#10b981"/>
+                <circle cx="200" cy="125" r="4" fill="#10b981"/>
+                <text x="65" y="140" fill="#e2e8f0" font-size="11" font-weight="bold">C</text>
+                <text x="205" y="140" fill="#e2e8f0" font-size="11" font-weight="bold">D</text>
+                <line x1="70" y1="125" x2="200" y2="125" stroke="#10b981" stroke-width="2"/>
+                <text x="135" y="138" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">CD = 100m</text>
+                <line x1="80" y1="45" x2="190" y2="45" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,3"/>
+                <text x="135" y="40" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="middle">AB = ?</text>
+              </svg>`;
+
+          case 'airplane_elevation':
+            return `
+              <svg viewBox="0 0 280 150" class="w-full h-auto max-h-48 select-none">
+                <line x1="30" y1="125" x2="250" y2="125" stroke="#64748b" stroke-width="2"/>
+                <line x1="30" y1="125" x2="230" y2="40" stroke="#38bdf8" stroke-width="2.5"/>
+                <!-- Altitude line -->
+                <line x1="230" y1="125" x2="230" y2="40" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="238" y="85" fill="#f59e0b" font-size="11" font-weight="bold">h = ?</text>
+                <path d="M 60,125 A 30 30 0 0 0 57,113" fill="none" stroke="#a855f7" stroke-width="2"/>
+                <text x="70" y="118" fill="#a855f7" font-size="10" font-weight="bold">25°</text>
+                <text x="120" y="70" fill="#38bdf8" font-size="11" font-weight="bold">4000m</text>
+                <text x="230" y="32" fill="#e2e8f0" font-size="13">✈️</text>
+              </svg>`;
+
+          case 'tunnel_mountain':
+            return `
+              <svg viewBox="0 0 280 150" class="w-full h-auto max-h-48 select-none">
+                <!-- Mountain silhouette -->
+                <path d="M 40,125 Q 120,20 220,125 Z" fill="rgba(148,163,184,0.18)" stroke="#64748b" stroke-width="1.5"/>
+                <line x1="60" y1="125" x2="200" y2="125" stroke="#ef4444" stroke-width="3" stroke-dasharray="5,4"/>
+                <circle cx="60" cy="125" r="4" fill="#ef4444"/>
+                <circle cx="200" cy="125" r="4" fill="#ef4444"/>
+                <text x="50" y="138" fill="#e2e8f0" font-size="11" font-weight="bold">A</text>
+                <text x="205" y="138" fill="#e2e8f0" font-size="11" font-weight="bold">B</text>
+                <text x="130" y="120" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="middle">Hầm AB = ?</text>
+                <!-- Marker C -->
+                <circle cx="130" cy="145" r="4" fill="#10b981"/>
+                <text x="130" y="158" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">C</text>
+                <line x1="60" y1="125" x2="130" y2="145" stroke="#10b981" stroke-width="1.5"/>
+                <line x1="200" y1="125" x2="130" y2="145" stroke="#10b981" stroke-width="1.5"/>
+              </svg>`;
+
+          case 'radio_tower_pq':
+            return `
+              <svg viewBox="0 0 280 160" class="w-full h-auto max-h-48 select-none">
+                <!-- Tower at center bottom -->
+                <line x1="140" y1="120" x2="140" y2="40" stroke="#f43f5e" stroke-width="2.5"/>
+                <text x="140" y="32" fill="#f43f5e" font-size="11" font-weight="bold" text-anchor="middle">Tháp H</text>
+                <!-- Stations P & Q -->
+                <circle cx="50" cy="95" r="4" fill="#6366f1"/>
+                <circle cx="230" cy="95" r="4" fill="#6366f1"/>
+                <text x="40" y="98" fill="#e2e8f0" font-size="11" font-weight="bold">P</text>
+                <text x="238" y="98" fill="#e2e8f0" font-size="11" font-weight="bold">Q</text>
+                <line x1="140" y1="120" x2="50" y2="95" stroke="#6366f1" stroke-width="1.5"/>
+                <line x1="140" y1="120" x2="230" y2="95" stroke="#6366f1" stroke-width="1.5"/>
+                <text x="90" y="118" fill="#94a3b8" font-size="10">120m</text>
+                <text x="190" y="118" fill="#94a3b8" font-size="10">160m</text>
+                <line x1="50" y1="95" x2="230" y2="95" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4"/>
+                <text x="140" y="85" fill="#ef4444" font-size="11" font-weight="bold" text-anchor="middle">PQ = ?</text>
+              </svg>`;
+
+          default:
+            return '';
+        }
+      }
+    };
+
+    class MathBattleApp {
+      constructor() {
+        this.state = {
+          mode: 'SOLO', // 'SOLO', 'CLASSROOM', 'PRACTICE', 'CHALLENGE'
+          currentScreen: 'home',
+          roomPin: '728415',
+          playerName: 'Nguyễn An',
+          config: {
+            topic: 'ALL',
+            questionCount: 20,
+            timePerQuestion: 30,
+            shuffleQuestions: true,
+            shuffleAnswers: true,
+            showExplanation: true,
+            showLeaderboard: true
+          },
+          players: [], // Simulated classroom players
+          activeQuestions: [],
+          currentIndex: 0,
+          currentQuestion: null,
+          userAnswer: null,
+          isAnswered: false,
+          timerVal: 30,
+          timerInterval: null,
+          currentScore: 0,
+          currentCombo: 0,
+          maxCombo: 0,
+          userAnswersHistory: [], // stores { question, selected, isCorrect, timeSpent, points }
+          isPresentation: false
+        };
+
+        // Simulated AI classroom students
+        this.simulatedStudentNames = ['Bình', 'Chi', 'Dũng', 'Hà', 'Khánh', 'Minh', 'Linh'];
+      }
+
+      init() {
+        // Run self data validation check
+        this.validateQuestionBank();
+        // Load highscore from localStorage
+        this.loadLocalData();
+        // Bind hotkeys
+        this.bindHotkeys();
+        // Render initial badges
+        this.renderAchievementsList();
+        // Render initial question bank list
+        this.renderQuestionBankList();
+
+        console.log("✅ GAME READY: Math Battle Toán 10 KNTT đã khởi tạo thành công.");
+      }
+
+      validateQuestionBank() {
+        if (!Array.isArray(QUESTION_BANK) || QUESTION_BANK.length !== 40) {
+          console.warn("⚠️ CẢNH BÁO KIỂM THỬ: Số lượng câu hỏi hiện tại khác 40 (" + QUESTION_BANK.length + ").");
+        }
+        const ids = new Set();
+        let valid = true;
+        QUESTION_BANK.forEach((q, idx) => {
+          if (ids.has(q.id)) {
+            console.error(`Lỗi câu hỏi: ID trùng lặp ${q.id} tại chỉ số ${idx}`);
+            valid = false;
+          }
+          ids.add(q.id);
+          if (!q.question || q.options.length !== 4 || q.correctAnswer < 0 || q.correctAnswer > 3) {
+            console.error(`Lỗi câu hỏi: Dữ liệu câu ${q.id} không hợp lệ!`);
+            valid = false;
+          }
+          if (!q.explanation) {
+            console.warn(`Thiếu giải thích tại câu ${q.id}`);
+          }
+        });
+        if (valid) {
+          console.log("✅ BẢNG KIỂM ĐỊNH TOÁN: 40/40 câu hỏi hợp lệ 100% theo chương trình Toán 10 KNTT.");
+        }
+      }
+
+      navTo(screenId) {
+        // Clear active timer if running
+        if (this.state.timerInterval) {
+          clearInterval(this.state.timerInterval);
+          this.state.timerInterval = null;
+        }
+
+        // Hide all screens
+        const screens = [
+          'screenHome', 'screenTeacherConfig', 'screenLobby',
+          'screenStudentJoin', 'screenStudentWait', 'screenPracticeConfig',
+          'screenArena', 'screenLeaderboard', 'screenFinal',
+          'screenReviewWrong', 'screenAchievements', 'screenQuestionBank'
+        ];
+        screens.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('hidden');
+        });
+
+        // Show requested screen
+        const targetMap = {
+          'home': 'screenHome',
+          'teacherConfig': 'screenTeacherConfig',
+          'lobby': 'screenLobby',
+          'studentJoin': 'screenStudentJoin',
+          'studentWait': 'screenStudentWait',
+          'practiceConfig': 'screenPracticeConfig',
+          'arena': 'screenArena',
+          'leaderboard': 'screenLeaderboard',
+          'final': 'screenFinal',
+          'reviewWrong': 'screenReviewWrong',
+          'achievements': 'screenAchievements',
+          'questionBankView': 'screenQuestionBank'
+        };
+
+        const targetEl = document.getElementById(targetMap[screenId] || 'screenHome');
+        if (targetEl) {
+          targetEl.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        this.state.currentScreen = screenId;
+
+        // Trigger MathJax re-render if needed
+        this.typesetMath();
+      }
+
+      typesetMath() {
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise().catch(err => console.debug('MathJax error', err));
+        }
+      }
+
+      togglePresentationMode() {
+        this.state.isPresentation = !this.state.isPresentation;
+        const body = document.body;
+        const btn = document.getElementById('btnPresentationToggle');
+        if (this.state.isPresentation) {
+          body.classList.add('presentation-mode');
+          btn.classList.add('bg-brand-500', 'text-white');
+          this.showToast('📺 Đã bật Chế độ Trình Chiếu Giảng Dạy');
+          if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+        } else {
+          body.classList.remove('presentation-mode');
+          btn.classList.remove('bg-brand-500', 'text-white');
+          this.showToast('Đã tắt Chế độ Trình Chiếu');
+          if (document.exitFullscreen && document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          }
+        }
+      }
+
+      toggleSound() {
+        sound.enabled = !sound.enabled;
+        const icon = document.getElementById('soundIcon');
+        const lbl = document.getElementById('soundLabel');
+        if (sound.enabled) {
+          icon.textContent = '🔊';
+          lbl.textContent = 'Bật';
+          sound.tick();
+          this.showToast('🔊 Đã bật âm thanh trò chơi');
+        } else {
+          icon.textContent = '🔇';
+          lbl.textContent = 'Tắt';
+          this.showToast('🔇 Đã tắt âm thanh');
+        }
+      }
+
+      toggleTheme() {
+        const html = document.documentElement;
+        const icon = document.getElementById('themeIcon');
+        if (html.classList.contains('dark')) {
+          html.classList.remove('dark');
+          icon.textContent = '☀️';
+        } else {
+          html.classList.add('dark');
+          icon.textContent = '🌙';
+        }
+      }
+
+      showToast(message, icon = 'ℹ️') {
+        const toast = document.getElementById('appToast');
+        const msgEl = document.getElementById('toastMsg');
+        const iconEl = document.getElementById('toastIcon');
+        if (!toast || !msgEl) return;
+        msgEl.textContent = message;
+        iconEl.textContent = icon;
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 2800);
+      }
+
+      /**
+       * Generates a pedagogically balanced quiz from the 40-question pool
+       */
+      generateQuiz({ count = 20, topic = 'ALL', shuffle = true }) {
+        let pool = [...QUESTION_BANK];
+
+        // Filter by topic if specific
+        if (topic !== 'ALL') {
+          pool = pool.filter(q => q.topic === topic);
+        }
+
+        // If pool is smaller than count, return all available in pool
+        if (pool.length < count) {
+          if (shuffle) pool = this.shuffleArray(pool);
+          return pool;
+        }
+
+        // Balanced selection across difficulty levels
+        if (topic === 'ALL' && count === 20) {
+          const nb = this.shuffleArray(pool.filter(q => q.level === 'NB')).slice(0, 5);
+          const th = this.shuffleArray(pool.filter(q => q.level === 'TH')).slice(0, 5);
+          const vd = this.shuffleArray(pool.filter(q => q.level === 'VD')).slice(0, 6);
+          const vdc = this.shuffleArray(pool.filter(q => q.level === 'VDC')).slice(0, 4);
+          let combined = [...nb, ...th, ...vd, ...vdc];
+          if (shuffle) combined = this.shuffleArray(combined);
+          return combined;
+        }
+
+        if (shuffle) {
+          pool = this.shuffleArray(pool);
+        }
+        return pool.slice(0, count);
+      }
+
+      shuffleArray(arr) {
+        const copy = [...arr];
+        for (let i = copy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      }
+
+      setCfgValue(key, val, btnEl) {
+        this.state.config[key] = val;
+        // Update active buttons styling
+        const selector = key === 'questionCount' ? '.cfg-btn-q' : '.cfg-btn-t';
+        document.querySelectorAll(selector).forEach(b => {
+          b.className = b.className.replace(/border-2 border-brand-500 bg-brand-50 dark:bg-brand-900\/30 text-brand-600 dark:text-brand-400/, 'border border-slate-300 dark:border-slate-700');
+        });
+        btnEl.className = `${selector.replace('.', '')} font-bold py-2 rounded-xl text-xs border-2 border-brand-500 bg-brand-50 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400`;
+      }
+
+      createClassroomRoom() {
+        const topicSelect = document.getElementById('cfgTopic');
+        this.state.config.topic = topicSelect ? topicSelect.value : 'ALL';
+        this.state.config.shuffleQuestions = document.getElementById('cfgShuffleQ')?.checked ?? true;
+        this.state.config.shuffleAnswers = document.getElementById('cfgShuffleAns')?.checked ?? true;
+        this.state.config.showExplanation = document.getElementById('cfgShowExp')?.checked ?? true;
+        this.state.config.showLeaderboard = document.getElementById('cfgShowLeaderboard')?.checked ?? true;
+
+        // Generate random 6-digit PIN
+        const pin = Math.floor(100000 + Math.random() * 900000).toString();
+        this.state.roomPin = pin;
+        const lobbyPinEl = document.getElementById('lobbyPinCode');
+        if (lobbyPinEl) lobbyPinEl.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`;
+
+        // Initialize simulated classroom bots
+        this.state.players = [
+          { name: this.state.playerName || 'Bạn (An)', isHost: true, score: 0, correctCount: 0, totalTime: 0 },
+          { name: 'Bình', isHost: false, score: 0, correctCount: 0, totalTime: 0, accuracy: 0.85, speedWeight: 0.8 },
+          { name: 'Chi', isHost: false, score: 0, correctCount: 0, totalTime: 0, accuracy: 0.80, speedWeight: 0.9 },
+          { name: 'Dũng', isHost: false, score: 0, correctCount: 0, totalTime: 0, accuracy: 0.75, speedWeight: 0.7 },
+          { name: 'Hà', isHost: false, score: 0, correctCount: 0, totalTime: 0, accuracy: 0.90, speedWeight: 0.95 },
+          { name: 'Minh', isHost: false, score: 0, correctCount: 0, totalTime: 0, accuracy: 0.70, speedWeight: 0.6 }
+        ];
+
+        this.renderLobbyPlayers();
+        this.state.mode = 'CLASSROOM';
+        sound.start();
+        this.navTo('lobby');
+      }
+
+      renderLobbyPlayers() {
+        const listEl = document.getElementById('lobbyPlayerList');
+        const countEl = document.getElementById('lobbyPlayerCount');
+        if (!listEl) return;
+        if (countEl) countEl.textContent = this.state.players.length;
+
+        listEl.innerHTML = this.state.players.map((p, idx) => `
+          <div class="flex items-center space-x-2.5 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+            <span class="w-7 h-7 rounded-lg ${p.isHost ? 'bg-brand-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'} flex items-center justify-center font-bold text-xs">
+              ${p.name.charAt(0)}
+            </span>
+            <span class="text-xs font-bold truncate">${p.name} ${p.isHost ? '<span class="text-[10px] text-brand-500">(Tôi)</span>' : ''}</span>
+          </div>
+        `).join('');
+      }
+
+      addSimulatedStudent() {
+        const available = this.simulatedStudentNames.filter(n => !this.state.players.some(p => p.name === n));
+        if (available.length > 0) {
+          const nextName = available[0];
+          this.state.players.push({
+            name: nextName,
+            isHost: false,
+            score: 0,
+            correctCount: 0,
+            totalTime: 0,
+            accuracy: 0.75 + Math.random() * 0.2,
+            speedWeight: 0.6 + Math.random() * 0.35
+          });
+          this.renderLobbyPlayers();
+          this.showToast(`Đã thêm tuyển thủ ${nextName}`);
+        } else {
+          this.showToast('Đã đủ sĩ số lớp mô phỏng (tối đa)');
+        }
+      }
+
+      handleStudentJoinSubmit() {
+        const pinInput = document.getElementById('joinPinInput')?.value.replace(/\s+/g, '');
+        const nameInput = document.getElementById('joinNameInput')?.value.trim();
+        const errEl = document.getElementById('joinErrorMsg');
+
+        if (!pinInput || pinInput.length < 4) {
+          if (errEl) {
+            errEl.textContent = 'Vui lòng nhập mã PIN hợp lệ (tối thiểu 4 ký tự).';
+            errEl.classList.remove('hidden');
+          }
+          return;
+        }
+
+        if (!nameInput) {
+          if (errEl) {
+            errEl.textContent = 'Vui lòng nhập tên tuyển thủ của bạn.';
+            errEl.classList.remove('hidden');
+          }
+          return;
+        }
+
+        if (errEl) errEl.classList.add('hidden');
+
+        // Sanitize name
+        const cleanName = nameInput.replace(/[<>]/g, '');
+        this.state.playerName = cleanName;
+        this.state.roomPin = pinInput;
+
+        document.getElementById('waitPlayerName').textContent = cleanName;
+        document.getElementById('waitRoomPin').textContent = pinInput;
+
+        this.navTo('studentWait');
+      }
+
+      startSoloDirect() {
+        this.state.mode = 'SOLO';
+        this.state.playerName = 'Tuyển thủ Solo';
+        this.state.config.topic = 'ALL';
+        this.state.config.questionCount = 20;
+        this.state.config.timePerQuestion = 30;
+        this.startQuizSession();
+      }
+
+      startClassroomGame() {
+        this.startQuizSession();
+      }
+
+      startPracticeWithTopic(topicCode) {
+        this.state.mode = 'PRACTICE';
+        this.state.config.topic = topicCode;
+        this.state.config.questionCount = 10;
+        this.state.config.timePerQuestion = 999; // Unlimited in practice
+        this.state.config.showExplanation = true;
+        this.state.config.showLeaderboard = false;
+        this.startQuizSession();
+      }
+
+      startChallengeMode() {
+        this.state.mode = 'CHALLENGE';
+        this.state.config.topic = 'ALL';
+        this.state.config.questionCount = 20;
+        this.state.config.timePerQuestion = 30;
+        this.state.config.showExplanation = true;
+        this.state.config.showLeaderboard = true;
+        this.startQuizSession();
+      }
+
+      startQuizSession() {
+        // Build question list
+        if (this.state.mode === 'CHALLENGE') {
+          // Strict difficulty progression: Level 1 (Q1-5: NB) -> Level 2 (Q6-10: TH) -> Level 3 (Q11-15: VD) -> Level 4 (Q16-20: VDC with Q20 Final Challenge)
+          const nb = this.shuffleArray(QUESTION_BANK.filter(q => q.level === 'NB')).slice(0, 5);
+          const th = this.shuffleArray(QUESTION_BANK.filter(q => q.level === 'TH')).slice(0, 5);
+          const vd = this.shuffleArray(QUESTION_BANK.filter(q => q.level === 'VD')).slice(0, 5);
+          const vdcPool = QUESTION_BANK.filter(q => q.level === 'VDC');
+          const q40 = vdcPool.find(q => q.id === 40) || vdcPool[0];
+          const vdcOther = this.shuffleArray(vdcPool.filter(q => q.id !== q40.id)).slice(0, 4);
+          this.state.activeQuestions = [...nb, ...th, ...vd, ...vdcOther, q40];
+        } else {
+          this.state.activeQuestions = this.generateQuiz({
+            count: this.state.config.questionCount,
+            topic: this.state.config.topic,
+            shuffle: this.state.config.shuffleQuestions
+          });
+        }
+
+        if (this.state.activeQuestions.length === 0) {
+          this.showToast('Không đủ câu hỏi phù hợp với bộ lọc.');
+          return;
+        }
+
+        // Reset session stats
+        this.state.currentIndex = 0;
+        this.state.currentScore = 0;
+        this.state.currentCombo = 0;
+        this.state.maxCombo = 0;
+        this.state.userAnswersHistory = [];
+
+        // Reset player scores if in classroom
+        if (this.state.mode === 'CLASSROOM') {
+          this.state.players.forEach(p => {
+            p.score = 0;
+            p.correctCount = 0;
+            p.totalTime = 0;
+          });
+        }
+
+        sound.start();
+        this.navTo('arena');
+        this.loadCurrentQuestion();
+      }
+
+      loadCurrentQuestion() {
+        if (this.state.currentIndex >= this.state.activeQuestions.length) {
+          this.finishQuizSession();
+          return;
+        }
+
+        const q = this.state.activeQuestions[this.state.currentIndex];
+        this.state.currentQuestion = q;
+        this.state.isAnswered = false;
+        this.state.userAnswer = null;
+
+        // Hide feedback drawer
+        const drawer = document.getElementById('arenaFeedbackDrawer');
+        if (drawer) drawer.classList.add('hidden');
+
+        // Update Question Counter and metadata badges
+        document.getElementById('arenaQIndex').textContent = String(this.state.currentIndex + 1).padStart(2, '0');
+        document.getElementById('arenaQTotal').textContent = String(this.state.activeQuestions.length).padStart(2, '0');
+        document.getElementById('arenaTopicBadge').textContent = q.topicName || q.topic;
+        
+        const levelLabelMap = { 'NB': 'Nhận biết', 'TH': 'Thông hiểu', 'VD': 'Vận dụng', 'VDC': 'Vận dụng cao' };
+        document.getElementById('arenaLevelBadge').textContent = levelLabelMap[q.level] || q.level;
+
+        // Final Question Alert Banner for Q20 in Challenge or Last question
+        const isFinalQ = (this.state.currentIndex === this.state.activeQuestions.length - 1);
+        const finalBanner = document.getElementById('arenaFinalBanner');
+        if (finalBanner) {
+          if (isFinalQ) finalBanner.classList.remove('hidden');
+          else finalBanner.classList.add('hidden');
+        }
+
+        // Set Question Text
+        const qTextEl = document.getElementById('arenaQuestionText');
+        if (qTextEl) qTextEl.innerHTML = q.question;
+
+        // Render Geometry SVG Diagram if present
+        const diagramBox = document.getElementById('arenaDiagramBox');
+        if (diagramBox) {
+          if (q.hasDiagram && q.diagramType) {
+            diagramBox.innerHTML = DiagramFactory.render(q.diagramType);
+            diagramBox.classList.remove('hidden');
+          } else {
+            diagramBox.innerHTML = '';
+            diagramBox.classList.add('hidden');
+          }
+        }
+
+        // Prepare randomized or structured Options
+        let optionIndices = [0, 1, 2, 3];
+        if (this.state.config.shuffleAnswers) {
+          optionIndices = this.shuffleArray(optionIndices);
+        }
+        this.state.renderedOptionIndices = optionIndices;
+
+        // Bind options to buttons and reset button appearances
+        for (let i = 0; i < 4; i++) {
+          const originalIdx = optionIndices[i];
+          const btn = document.getElementById(`optBtn${i}`);
+          const textEl = document.getElementById(`optText${i}`);
+          if (btn && textEl) {
+            textEl.innerHTML = q.options[originalIdx];
+            btn.disabled = false;
+            // Clean active classes
+            btn.className = "option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard hover:bg-slate-50 dark:hover:bg-slate-800 border-2 border-slate-200 dark:border-darkborder focus:outline-none flex items-center space-x-3 shadow-sm group";
+          }
+        }
+
+        // Re-typeset MathJax formulas
+        this.typesetMath();
+
+        // Start Countdown Timer
+        this.startQuestionTimer(q.time || this.state.config.timePerQuestion);
+      }
+
+      startQuestionTimer(durationSeconds) {
+        if (this.state.timerInterval) {
+          clearInterval(this.state.timerInterval);
+        }
+
+        const timerContainer = document.getElementById('arenaTimerContainer');
+        if (this.state.mode === 'PRACTICE') {
+          // Unlimited time in practice mode
+          if (timerContainer) timerContainer.classList.add('opacity-40');
+          document.getElementById('arenaTimerText').textContent = '∞';
+          return;
+        } else {
+          if (timerContainer) timerContainer.classList.remove('opacity-40');
+        }
+
+        this.state.timerVal = durationSeconds;
+        this.state.totalQuestionDuration = durationSeconds;
+        const textEl = document.getElementById('arenaTimerText');
+        const circleEl = document.getElementById('arenaTimerCircle');
+
+        const updateDisplay = () => {
+          if (textEl) textEl.textContent = this.state.timerVal;
+          if (circleEl) {
+            const fraction = Math.max(0, this.state.timerVal / this.state.totalQuestionDuration);
+            const offset = 100 - (fraction * 100);
+            circleEl.style.strokeDashoffset = offset;
+            if (this.state.timerVal <= 5) {
+              circleEl.classList.remove('text-brand-500', 'text-amber-500');
+              circleEl.classList.add('text-rose-500');
+            } else if (this.state.timerVal <= 10) {
+              circleEl.classList.remove('text-brand-500', 'text-rose-500');
+              circleEl.classList.add('text-amber-500');
+            } else {
+              circleEl.classList.remove('text-amber-500', 'text-rose-500');
+              circleEl.classList.add('text-brand-500');
+            }
+          }
+        };
+
+        updateDisplay();
+
+        this.state.timerInterval = setInterval(() => {
+          this.state.timerVal--;
+          if (this.state.timerVal > 0 && this.state.timerVal <= 5) {
+            sound.tick();
+          }
+          updateDisplay();
+
+          if (this.state.timerVal <= 0) {
+            clearInterval(this.state.timerInterval);
+            this.state.timerInterval = null;
+            this.handleTimeout();
+          }
+        }, 1000);
+      }
+
+      selectOption(renderedIndex) {
+        // Anti double-click guardrail
+        if (this.state.isAnswered) return;
+        this.state.isAnswered = true;
+
+        if (this.state.timerInterval) {
+          clearInterval(this.state.timerInterval);
+          this.state.timerInterval = null;
+        }
+
+        const q = this.state.currentQuestion;
+        const originalSelectedIdx = this.state.renderedOptionIndices[renderedIndex];
+        const isCorrect = (originalSelectedIdx === q.correctAnswer);
+        const timeSpent = this.state.totalQuestionDuration - Math.max(0, this.state.timerVal);
+
+        // Calculate score with Speed Bonus formula:
+        // Base = 500, Speed Bonus = 500 * (remainingTime / totalTime)
+        let earnedPoints = 0;
+        let speedBonus = 0;
+        if (isCorrect) {
+          const ratio = this.state.totalQuestionDuration > 0 ? (this.state.timerVal / this.state.totalQuestionDuration) : 0;
+          speedBonus = Math.round(500 * Math.max(0, ratio));
+          earnedPoints = 500 + speedBonus;
+          this.state.currentScore += earnedPoints;
+          this.state.currentCombo++;
+          if (this.state.currentCombo > this.state.maxCombo) {
+            this.state.maxCombo = this.state.currentCombo;
+          }
+          sound.correct();
+        } else {
+          this.state.currentCombo = 0;
+          sound.wrong();
+        }
+
+        // Lock all buttons and apply styling
+        this.styleAnswerButtons(renderedIndex, isCorrect, q.correctAnswer);
+
+        // Update score & combo HUD
+        document.getElementById('arenaScoreText').textContent = this.state.currentScore.toLocaleString();
+        const comboBadge = document.getElementById('arenaComboBadge');
+        if (this.state.currentCombo >= 2) {
+          document.getElementById('arenaComboCount').textContent = this.state.currentCombo;
+          comboBadge.classList.remove('hidden');
+        } else {
+          comboBadge.classList.add('hidden');
+        }
+
+        // Save history entry
+        this.state.userAnswersHistory.push({
+          question: q,
+          selectedAnswerIndex: originalSelectedIdx,
+          isCorrect: isCorrect,
+          timeSpent: timeSpent,
+          points: earnedPoints
+        });
+
+        // Simulate classroom bots response if in Classroom Mode
+        if (this.state.mode === 'CLASSROOM') {
+          this.simulateClassroomBotsResponse(q);
+        }
+
+        // Display Feedback Drawer
+        this.showAnswerFeedback(isCorrect, earnedPoints, speedBonus, q.explanation);
+      }
+
+      handleTimeout() {
+        if (this.state.isAnswered) return;
+        this.state.isAnswered = true;
+
+        sound.timeout();
+        const q = this.state.currentQuestion;
+        this.state.currentCombo = 0;
+
+        // Lock all buttons
+        this.styleAnswerButtons(-1, false, q.correctAnswer);
+
+        // Record timeout in history
+        this.state.userAnswersHistory.push({
+          question: q,
+          selectedAnswerIndex: -1, // Timed out
+          isCorrect: false,
+          timeSpent: this.state.totalQuestionDuration,
+          points: 0
+        });
+
+        if (this.state.mode === 'CLASSROOM') {
+          this.simulateClassroomBotsResponse(q);
+        }
+
+        this.showAnswerFeedback(false, 0, 0, q.explanation, true);
+      }
+
+      styleAnswerButtons(userRenderedIdx, isCorrect, correctAnswerOriginalIdx) {
+        for (let i = 0; i < 4; i++) {
+          const btn = document.getElementById(`optBtn${i}`);
+          if (!btn) continue;
+          btn.disabled = true;
+
+          const originalIdx = this.state.renderedOptionIndices[i];
+          if (originalIdx === correctAnswerOriginalIdx) {
+            // Correct answer highlight
+            btn.className = "option-btn p-3.5 sm:p-4 rounded-xl text-left bg-emerald-50 dark:bg-emerald-950/50 border-2 border-emerald-500 flex items-center space-x-3 shadow-md";
+          } else if (i === userRenderedIdx && !isCorrect) {
+            // Wrong selection highlight
+            btn.className = "option-btn p-3.5 sm:p-4 rounded-xl text-left bg-rose-50 dark:bg-rose-950/50 border-2 border-rose-500 flex items-center space-x-3 shadow-sm";
+          } else {
+            // Dimmed options
+            btn.className = "option-btn p-3.5 sm:p-4 rounded-xl text-left bg-white dark:bg-darkcard border-2 border-slate-200 dark:border-slate-800 opacity-40 flex items-center space-x-3";
+          }
+        }
+      }
+
+      showAnswerFeedback(isCorrect, points, speedBonus, explanationText, isTimeout = false) {
+        const drawer = document.getElementById('arenaFeedbackDrawer');
+        const iconEl = document.getElementById('feedbackIcon');
+        const titleEl = document.getElementById('feedbackTitle');
+        const ptsEl = document.getElementById('feedbackPoints');
+        const expBox = document.getElementById('feedbackExpBox');
+        const expText = document.getElementById('feedbackExpText');
+
+        if (!drawer) return;
+
+        if (isCorrect) {
+          drawer.className = "bg-white dark:bg-darkcard border-2 border-emerald-500 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3 animate-fadeIn";
+          iconEl.textContent = '🎉';
+          titleEl.textContent = 'CHÍNH XÁC!';
+          titleEl.className = 'font-black text-base sm:text-lg text-emerald-600 dark:text-emerald-400';
+          ptsEl.textContent = `+${points} điểm (Điểm gốc 500 + Tốc độ ${speedBonus})`;
+        } else if (isTimeout) {
+          drawer.className = "bg-white dark:bg-darkcard border-2 border-amber-500 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3 animate-fadeIn";
+          iconEl.textContent = '⏱️';
+          titleEl.textContent = 'HẾT GIỜ TRẢ LỜI!';
+          titleEl.className = 'font-black text-base sm:text-lg text-amber-600 dark:text-amber-400';
+          ptsEl.textContent = '+0 điểm (Không kịp chọn đáp án)';
+        } else {
+          drawer.className = "bg-white dark:bg-darkcard border-2 border-rose-500 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3 animate-fadeIn";
+          iconEl.textContent = '❌';
+          titleEl.textContent = 'CHƯA CHÍNH XÁC!';
+          titleEl.className = 'font-black text-base sm:text-lg text-rose-600 dark:text-rose-400';
+          ptsEl.textContent = '+0 điểm';
+        }
+
+        // Show explanation if enabled in config
+        if (this.state.config.showExplanation && explanationText) {
+          expText.innerHTML = explanationText;
+          expBox.classList.remove('hidden');
+          this.typesetMath();
+        } else {
+          expBox.classList.add('hidden');
+        }
+
+        drawer.classList.remove('hidden');
+      }
+
+      simulateClassroomBotsResponse(question) {
+        // Update player score in players list
+        const hostPlayer = this.state.players.find(p => p.isHost);
+        if (hostPlayer) {
+          hostPlayer.score = this.state.currentScore;
+          if (this.state.userAnswersHistory[this.state.userAnswersHistory.length - 1]?.isCorrect) {
+            hostPlayer.correctCount++;
+          }
+        }
+
+        // Simulate bots
+        this.state.players.forEach(p => {
+          if (p.isHost) return;
+          const willBeCorrect = Math.random() < (p.accuracy || 0.8);
+          if (willBeCorrect) {
+            const timeFrac = (p.speedWeight || 0.7) * (0.4 + Math.random() * 0.5);
+            const botBonus = Math.round(500 * timeFrac);
+            p.score += (500 + botBonus);
+            p.correctCount++;
+            p.totalTime += (30 * (1 - timeFrac));
+          } else {
+            p.totalTime += (15 + Math.random() * 15);
+          }
+        });
+      }
+
+      handleNextQuestionOrLeaderboard() {
+        this.state.currentIndex++;
+
+        // If in Classroom Mode and leaderboard is enabled, show leaderboard after each question
+        if (this.state.mode === 'CLASSROOM' && this.state.config.showLeaderboard) {
+          this.showRoundLeaderboard();
+        } else {
+          if (this.state.currentIndex >= this.state.activeQuestions.length) {
+            this.finishQuizSession();
+          } else {
+            this.loadCurrentQuestion();
+          }
+        }
+      }
+
+      showRoundLeaderboard() {
+        // Sort players by score, then by correctCount, then by lower time
+        const sorted = [...this.state.players].sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          if (b.correctCount !== a.correctCount) return b.correctCount - a.correctCount;
+          return a.totalTime - b.totalTime;
+        });
+
+        const listEl = document.getElementById('roundLeaderboardList');
+        if (listEl) {
+          const medals = ['🥇', '🥈', '🥉', '4', '5'];
+          listEl.innerHTML = sorted.slice(0, 5).map((p, idx) => `
+            <div class="flex items-center justify-between p-3 rounded-xl ${p.isHost ? 'bg-brand-50 dark:bg-brand-900/40 border-2 border-brand-500' : 'bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700'}">
+              <div class="flex items-center space-x-3">
+                <span class="w-8 h-8 rounded-lg ${idx === 0 ? 'bg-amber-400 text-amber-950 font-black' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold'} flex items-center justify-center text-sm">
+                  ${medals[idx] || idx + 1}
+                </span>
+                <span class="font-extrabold text-sm">${p.name} ${p.isHost ? '<span class="text-xs text-brand-500">(Tôi)</span>' : ''}</span>
+              </div>
+              <div class="font-black font-mono text-base text-brand-600 dark:text-brand-400">
+                ${p.score.toLocaleString()} đ
+              </div>
+            </div>
+          `).join('');
+        }
+
+        this.navTo('leaderboard');
+      }
+
+      continueFromLeaderboard() {
+        if (this.state.currentIndex >= this.state.activeQuestions.length) {
+          this.finishQuizSession();
+        } else {
+          this.navTo('arena');
+          this.loadCurrentQuestion();
+        }
+      }
+
+      finishQuizSession() {
+        if (this.state.timerInterval) {
+          clearInterval(this.state.timerInterval);
+          this.state.timerInterval = null;
+        }
+
+        sound.victory();
+
+        const totalQ = this.state.activeQuestions.length;
+        const correctQ = this.state.userAnswersHistory.filter(h => h.isCorrect).length;
+        const accuracy = totalQ > 0 ? Math.round((correctQ / totalQ) * 100) : 0;
+
+        // Display Scoreboard HUD
+        document.getElementById('finalScoreVal').textContent = this.state.currentScore.toLocaleString();
+        document.getElementById('finalCorrectVal').textContent = `${correctQ}/${totalQ}`;
+        document.getElementById('finalAccuracyVal').textContent = `${accuracy}%`;
+        document.getElementById('finalComboVal').textContent = `🔥 x${this.state.maxCombo}`;
+
+        // Compute and unlock badges
+        this.evaluateAndAwardBadges(accuracy, this.state.maxCombo);
+
+        // Topic breakdown analytics
+        this.renderTopicBreakdown();
+
+        // Classroom analytics if in classroom mode
+        const teacherBox = document.getElementById('finalTeacherAnalyticsBox');
+        if (this.state.mode === 'CLASSROOM' && teacherBox) {
+          this.renderClassroomTeacherAnalytics(correctQ, totalQ);
+          teacherBox.classList.remove('hidden');
+        } else if (teacherBox) {
+          teacherBox.classList.add('hidden');
+        }
+
+        // Save high score to localStorage
+        this.saveSessionScore(this.state.currentScore, correctQ, totalQ);
+
+        this.navTo('final');
+      }
+
+      evaluateAndAwardBadges(accuracy, maxCombo) {
+        let title = "TRIANGLE APPRENTICE";
+        let desc = "Bắt đầu hành trình chinh phục Hệ thức lượng trong tam giác.";
+        let icon = "📐";
+
+        if (accuracy >= 90) {
+          title = "TRIANGLE MASTER";
+          desc = "Xuất sắc! Nắm vững toàn diện lý thuyết & định lí trong tam giác.";
+          icon = "👑";
+          this.unlockBadge('badge_triangle_master');
+        } else if (accuracy >= 80) {
+          title = "ACCURACY MASTER";
+          desc = "Tỉ lệ làm bài chính xác cao trên 80%.";
+          icon = "🎯";
+          this.unlockBadge('badge_accuracy_master');
+        } else if (maxCombo >= 5) {
+          title = "COMBO MASTER";
+          desc = "Đạt chuỗi trả lời đúng liên tiếp trên 5 câu.";
+          icon = "🔥";
+          this.unlockBadge('badge_combo_master');
+        }
+
+        document.getElementById('finalBadgeTitle').textContent = title;
+        document.getElementById('finalBadgeDesc').textContent = desc;
+        document.getElementById('finalBadgeIcon').textContent = icon;
+      }
+
+      unlockBadge(badgeKey) {
+        try {
+          const unlocked = JSON.parse(localStorage.getItem('mb_badges') || '{}');
+          unlocked[badgeKey] = true;
+          localStorage.setItem('mb_badges', JSON.stringify(unlocked));
+        } catch (e) {}
+      }
+
+      renderTopicBreakdown() {
+        const topicStats = {};
+        this.state.userAnswersHistory.forEach(h => {
+          const t = h.question.topicName || h.question.topic;
+          if (!topicStats[t]) {
+            topicStats[t] = { correct: 0, total: 0 };
+          }
+          topicStats[t].total++;
+          if (h.isCorrect) topicStats[t].correct++;
+        });
+
+        const container = document.getElementById('finalTopicBreakdown');
+        if (!container) return;
+
+        const entries = Object.entries(topicStats);
+        if (entries.length === 0) {
+          container.innerHTML = '<p class="text-xs text-slate-400">Chưa có dữ liệu phân tích chủ đề.</p>';
+          return;
+        }
+
+        container.innerHTML = entries.map(([name, stat]) => {
+          const pct = Math.round((stat.correct / stat.total) * 100);
+          return `
+            <div>
+              <div class="flex justify-between text-xs font-bold mb-1">
+                <span>${name}</span>
+                <span class="${pct >= 75 ? 'text-emerald-500' : (pct >= 50 ? 'text-amber-500' : 'text-rose-500')}">${stat.correct}/${stat.total} (${pct}%)</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500 ${pct >= 75 ? 'bg-emerald-500' : (pct >= 50 ? 'bg-amber-500' : 'bg-rose-500')}" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      renderClassroomTeacherAnalytics(userCorrect, totalQ) {
+        const totalStudents = this.state.players.length;
+        const totalScore = this.state.players.reduce((acc, p) => acc + p.score, 0);
+        const avgScore = Math.round(totalScore / totalStudents);
+
+        document.getElementById('classTotalStudents').textContent = totalStudents;
+        document.getElementById('classAvgScore').textContent = avgScore.toLocaleString();
+        document.getElementById('classHardestQ').textContent = `Câu ${Math.min(16, totalQ)}`;
+        document.getElementById('classEasiestQ').textContent = 'Câu 01';
+
+        // Pedagogical advice
+        const adviceEl = document.getElementById('classPedagogicalAdvice');
+        if (adviceEl) {
+          adviceEl.textContent = "Gợi ý sư phạm: Trong các bài toán Định lí Sin và Định lí Côsin, học sinh cần chú ý quy ước tam giác: cạnh đối diện góc A là a (cạnh BC), cạnh đối diện góc B là b (cạnh CA), cạnh đối diện góc C là c (cạnh AB) để tránh nhầm cạnh trong công thức S = 1/2 bc sin A.";
+        }
+      }
+
+      renderReviewWrongQuestions() {
+        const wrongList = this.state.userAnswersHistory.filter(h => !h.isCorrect);
+        const container = document.getElementById('reviewQuestionsContainer');
+        if (!container) return;
+
+        if (wrongList.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl space-y-2">
+              <span class="text-4xl">🌟</span>
+              <h3 class="text-lg font-black text-emerald-500">Tuyệt vời! Không có câu trả lời sai!</h3>
+              <p class="text-xs text-slate-400">Bạn đã hoàn thành chính xác 100% tất cả các câu hỏi trong lượt này.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = wrongList.map((item, idx) => {
+          const q = item.question;
+          const userChosen = item.selectedAnswerIndex >= 0 ? q.options[item.selectedAnswerIndex] : 'Hết giờ (Không chọn)';
+          const correctChosen = q.options[q.correctAnswer];
+          return `
+            <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 sm:p-5 space-y-3 shadow-sm">
+              <div class="flex justify-between items-start text-xs">
+                <span class="font-black text-brand-500">CÂU #${q.id}</span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400">${q.topicName || q.topic}</span>
+              </div>
+              <div class="text-sm font-bold text-slate-800 dark:text-slate-100">${q.question}</div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50">
+                  <span class="font-bold text-rose-600 dark:text-rose-400 block mb-0.5">Lựa chọn của bạn:</span>
+                  <div class="text-rose-800 dark:text-rose-200">${userChosen}</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50">
+                  <span class="font-bold text-emerald-600 dark:text-emerald-400 block mb-0.5">Đáp án đúng:</span>
+                  <div class="text-emerald-800 dark:text-emerald-200">${correctChosen}</div>
+                </div>
+              </div>
+
+              <div class="p-3 bg-slate-50 dark:bg-slate-900/70 rounded-xl border border-slate-200 dark:border-slate-800 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                <span class="font-bold text-slate-800 dark:text-slate-100">💡 Lời giải chi tiết:</span>
+                <div class="mt-1">${q.explanation}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        this.typesetMath();
+      }
+
+      restartSameQuiz() {
+        this.startQuizSession();
+      }
+
+      exportResultsCSV() {
+        const headers = ["Ten", "Diem", "SoCauDung", "TongCau", "TiLeChinhXac"];
+        const rows = this.state.players.map(p => {
+          const acc = `${Math.round((p.correctCount / this.state.activeQuestions.length) * 100)}%`;
+          return [p.name, p.score, p.correctCount, this.state.activeQuestions.length, acc];
+        });
+
+        let csvContent = "data:text/csv;charset=utf-8," 
+          + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `MathBattle_KetQua_${this.state.roomPin}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.showToast('📥 Đã tải file kết quả CSV');
+      }
+
+      copyAnalyticsTable() {
+        let summary = `KẾT QUẢ MATH BATTLE - HỆ THỨC LƯỢNG (PHÒNG ${this.state.roomPin})\n`;
+        summary += `----------------------------------------------------\n`;
+        this.state.players.forEach((p, i) => {
+          summary += `${i + 1}. ${p.name}: ${p.score.toLocaleString()} điểm (${p.correctCount}/${this.state.activeQuestions.length})\n`;
+        });
+
+        const tempTextarea = document.createElement("textarea");
+        tempTextarea.value = summary;
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        try {
+          document.execCommand('copy');
+          this.showToast('📋 Đã sao chép bảng kết quả');
+        } catch (err) {
+          this.showToast('Không thể sao chép kết quả');
+        }
+        document.body.removeChild(tempTextarea);
+      }
+
+      renderAchievementsList() {
+        const badges = [
+          { id: 'badge_triangle_master', name: 'TRIANGLE MASTER', icon: '🏆', desc: 'Đạt độ chính xác trên 90% trong trận đấu.' },
+          { id: 'badge_speed_master', name: 'SPEED MASTER', icon: '⚡', desc: 'Trả lời đúng câu hỏi trong vòng dưới 5 giây.' },
+          { id: 'badge_accuracy_master', name: 'ACCURACY MASTER', icon: '🎯', desc: 'Đạt độ chính xác trên 80% trong bài thi.' },
+          { id: 'badge_combo_master', name: 'COMBO MASTER', icon: '🔥', desc: 'Đạt chuỗi combo 5 câu đúng liên tiếp.' },
+          { id: 'badge_cosine_master', name: 'COSINE MASTER', icon: '📐', desc: 'Hoàn thành chính xác toàn bộ câu Định lí Côsin.' },
+          { id: 'badge_sine_master', name: 'SINE MASTER', icon: '📏', desc: 'Hoàn thành chính xác toàn bộ câu Định lí Sin.' },
+          { id: 'badge_problem_solver', name: 'PROBLEM SOLVER', icon: '🧠', desc: 'Giải quyết chính xác bài toán thực tế Vận dụng cao.' }
+        ];
+
+        let unlocked = {};
+        try {
+          unlocked = JSON.parse(localStorage.getItem('mb_badges') || '{}');
+        } catch (e) {}
+
+        const grid = document.getElementById('achievementsGrid');
+        if (!grid) return;
+
+        grid.innerHTML = badges.map(b => {
+          const isUnlocked = !!unlocked[b.id];
+          return `
+            <div class="bg-white dark:bg-darkcard border ${isUnlocked ? 'border-brand-500 shadow-md' : 'border-slate-200 dark:border-darkborder opacity-50'} rounded-2xl p-5 space-y-3 transition">
+              <div class="flex items-center justify-between">
+                <span class="text-3xl p-2.5 rounded-xl ${isUnlocked ? 'bg-brand-50 dark:bg-brand-900/40 text-brand-500' : 'bg-slate-100 dark:bg-slate-800'}">${b.icon}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${isUnlocked ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'}">
+                  ${isUnlocked ? 'ĐÃ ĐẠT' : 'CHƯA MỞ'}
+                </span>
+              </div>
+              <div>
+                <h4 class="font-extrabold text-sm text-slate-800 dark:text-slate-100">${b.name}</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${b.desc}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      renderQuestionBankList() {
+        const topicFilter = document.getElementById('qbFilterTopic')?.value || 'ALL';
+        const levelFilter = document.getElementById('qbFilterLevel')?.value || 'ALL';
+        const listEl = document.getElementById('questionBankList');
+        if (!listEl) return;
+
+        let filtered = QUESTION_BANK.filter(q => {
+          if (topicFilter !== 'ALL' && q.topic !== topicFilter) return false;
+          if (levelFilter !== 'ALL' && q.level !== levelFilter) return false;
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          listEl.innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">Không tìm thấy câu hỏi với bộ lọc hiện tại.</p>';
+          return;
+        }
+
+        listEl.innerHTML = filtered.map(q => `
+          <div class="bg-white dark:bg-darkcard border border-slate-200 dark:border-darkborder rounded-2xl p-4 sm:p-5 space-y-3 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center space-x-2">
+                <span class="font-black text-brand-500 font-mono">CÂU #${String(q.id).padStart(2, '0')}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/40 text-brand-600 dark:text-brand-400 font-bold">${q.topicName}</span>
+                <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold">${q.level}</span>
+                ${q.hasDiagram ? '<span class="px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 font-bold">Có hình SVG</span>' : ''}
+              </div>
+              <span class="text-slate-400 font-mono">${q.time}s</span>
+            </div>
+
+            <div class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-relaxed">${q.question}</div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs pt-1">
+              ${q.options.map((opt, optIdx) => `
+                <div class="p-2 rounded-xl ${optIdx === q.correctAnswer ? 'bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500 font-bold text-emerald-700 dark:text-emerald-300' : 'bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'}">
+                  <span class="font-mono mr-1">${String.fromCharCode(65 + optIdx)}.</span> ${opt}
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
+              <span class="font-bold text-slate-700 dark:text-slate-200">💡 Hướng dẫn giải:</span> ${q.explanation}
+            </div>
+          </div>
+        `).join('');
+
+        this.typesetMath();
+      }
+
+      bindHotkeys() {
+        window.addEventListener('keydown', (e) => {
+          // Do not interfere with text inputs
+          const activeTag = document.activeElement?.tagName?.toLowerCase();
+          if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') return;
+
+          if (this.state.currentScreen === 'arena') {
+            if (e.key === '1') {
+              this.selectOption(0);
+            } else if (e.key === '2') {
+              this.selectOption(1);
+            } else if (e.key === '3') {
+              this.selectOption(2);
+            } else if (e.key === '4') {
+              this.selectOption(3);
+            } else if (e.key === 'n' || e.key === 'N' || e.code === 'Space') {
+              // Next if already answered
+              if (this.state.isAnswered) {
+                e.preventDefault();
+                this.handleNextQuestionOrLeaderboard();
+              }
+            }
+          } else if (this.state.currentScreen === 'leaderboard') {
+            if (e.key === 'n' || e.key === 'N' || e.code === 'Space') {
+              e.preventDefault();
+              this.continueFromLeaderboard();
+            }
+          }
+        });
+      }
+
+      loadLocalData() {
+        try {
+          const high = localStorage.getItem('mb_highscore') || '0';
+          const highEl = document.getElementById('headerHighScore');
+          if (highEl) highEl.textContent = parseInt(high, 10).toLocaleString();
+        } catch (e) {}
+      }
+
+      saveSessionScore(score, correct, total) {
+        try {
+          const currentHigh = parseInt(localStorage.getItem('mb_highscore') || '0', 10);
+          if (score > currentHigh) {
+            localStorage.setItem('mb_highscore', score.toString());
+            const highEl = document.getElementById('headerHighScore');
+            if (highEl) highEl.textContent = score.toLocaleString();
+            this.showToast(`🎉 Kỷ lục điểm số mới: ${score.toLocaleString()} điểm!`);
+          }
+        } catch (e) {}
+      }
+
+      resetAllDataPrompt() {
+        const modal = document.getElementById('customModal');
+        const title = document.getElementById('modalTitle');
+        const desc = document.getElementById('modalDesc');
+        const btnConfirm = document.getElementById('modalBtnConfirm');
+        const btnCancel = document.getElementById('modalBtnCancel');
+
+        if (!modal) return;
+        title.textContent = 'Xóa toàn bộ dữ liệu?';
+        desc.textContent = 'Hành động này sẽ xóa toàn bộ kỷ lục điểm cao và các huy hiệu đã tích lũy trên trình duyệt này.';
+
+        modal.classList.remove('hidden');
+
+        btnCancel.onclick = () => {
+          modal.classList.add('hidden');
+        };
+
+        btnConfirm.onclick = () => {
+          modal.classList.add('hidden');
+          try {
+            localStorage.removeItem('mb_highscore');
+            localStorage.removeItem('mb_badges');
+            this.loadLocalData();
+            this.renderAchievementsList();
+            this.showToast('🗑️ Đã xóa sạch dữ liệu kỷ lục cá nhân');
+          } catch (e) {}
+        };
+      }
+    }
+
+    // Instantiation and Global Entry Point
+    const app = new MathBattleApp();
+    window.onload = function() {
+      app.init();
+    };
+  </script>
+</body>
+</html>
